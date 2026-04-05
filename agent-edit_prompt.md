@@ -296,4 +296,4 @@ and end with:
 ## Mini Quiz Answer Key
 ```
 
-Subject: Statistics Module: Descriptive Statistics Lecture 3 : Mode Audience Level: Beginner to Expert
+Subject: Statistics Module: Descriptive Statistics Lecture 4 : Variance Audience Level: Beginner to Expert

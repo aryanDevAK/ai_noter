@@ -1,500 +1,505 @@
-# Lecture 1: Mean
+# Lecture 3: Mode
 
 ## 1. Why This Concept Matters
 
-If a cricket player scores 50, 100, 0, 10, and 90 runs in five consecutive matches, how do we judge their overall performance? We cannot just look at the 100 and say they are always brilliant, nor can we look at the 0 and call them terrible. We need a single number that represents their "typical" or "average" performance.
+Imagine you own a shoe store and want to restock your inventory. You calculate the arithmetic mean of all the shoe sizes sold last month and get a size of 8.34. Can you order a shoe of size 8.34? No! Even if you round it to 8.5, it might not represent what most people actually buy. Instead, you need to know the _most frequently sold_ shoe size. If size 9 sold the most pairs, that is the size you need to stock up on.
 
-In economics, when we talk about the "per capita income" of a country, we are talking about the mean. When a machine learning model predicts the average price of a house in a city based on historical data, it relies fundamentally on the mathematics of the mean. The mean allows us to compress large, complex datasets into a single, digestible summary number. It is the center of gravity for data.
+This most popular, most frequent value is called the **Mode**. In business, elections, and data science, we often don't care about the mathematical average or the exact middle; we want to know what happens most often. What is the most common customer complaint? Which product is the bestseller? What is the most common color of cars on the highway? The Mode answers these questions.
 
 ## 2. Understanding the Idea Intuitively
 
-Think of the mean as the concept of "fair share."
+Think of the Mode as the winner of a popularity contest.
 
-Imagine three friends have 2, 5, and 8 chocolates, respectively. They decide to pool all their chocolates together and then divide them equally so everyone has the exact same amount.
-Total chocolates = 2 + 5 + 8 = 15.
-Divided among 3 friends = 15 / 3 = 5 chocolates each.
+If you ask 10 friends what their favorite color is, and 6 say Blue, 3 say Red, and 1 says Green, the "Blue" color wins the contest. It has the highest number of votes. It is the Mode.
 
-This "fair share" value of 5 is the arithmetic mean.
-
-Another way to think of the mean is as a physical **balancing point** (or center of mass) on a seesaw. If you place weights on a number line at positions 2, 5, and 8, the seesaw will perfectly balance if you place the fulcrum exactly at 5.
+Unlike the Mean, which requires numbers to add up, or the Median, which requires ordering, the Mode simply looks for repetition. It is the only measure of central tendency that makes perfect sense for non-numerical (categorical) data, like colors, brands, or names.
 
 ## 3. Observing Patterns From Data
 
-Let's look at the daily pocket money of 4 students: ₹20, ₹30, ₹40, and ₹70.
+Let's look at the daily number of coffees consumed by an office worker over 7 days:
+`[2, 1, 2, 4, 2, 1, 3]`
 
-To find the central value, we first combine everything:
-Total Pool = 20 + 30 + 40 + 70 = ₹160.
+**Step 1:** Count how many times each number appears.
 
-Now, distribute this pool equally among the 4 students:
-Equal Share = 160 / 4 = ₹40.
+- 1 coffee: appears 2 times
+- 2 coffees: appears 3 times
+- 3 coffees: appears 1 time
+- 4 coffees: appears 1 time
 
-The mean pocket money is ₹40. Notice how the mean is influenced by every single value in the dataset. If the last student had ₹110 instead of ₹70, the total pool would be larger, and the mean would shift upwards.
+**Step 2:** Find the number with the highest count.
+The number `2` appears most frequently (3 times).
+
+Therefore, the Mode = 2 coffees.
+If another week the data was `[1, 1, 2, 2, 3, 4]`, we would have two modes: 1 and 2. This is called a **bimodal** distribution.
 
 ## 4. Rule for Finding the Concept
 
-The rule for calculating the mean depends on how the data is presented to us.
+The calculation of the Mode depends entirely on the form of the data.
 
-### A. For Raw/Ungrouped Data
+**A. For Raw/Ungrouped Data**
 
-If we have $n$ individual observations: $x_1, x_2, x_3, \dots, x_n$
+Simply count the frequencies of each observation. The observation with the highest frequency is the Mode.
 
-**Formula:**
-$$\bar{x} = \frac{x_1 + x_2 + \dots + x_n}{n} = \frac{\sum x_i}{n}$$
+**B. For Grouped Data (Continuous Distribution)**
 
-### B. For Ungrouped Frequency Distribution (Weighted Mean Intuition)
-
-When certain values repeat, we use frequencies ($f_i$) instead of adding them multiple times.
+When data is grouped into class intervals (e.g., 10-20), we cannot see individual values to count them. Instead, we first find the **Modal Class** (the class interval with the highest frequency) and then use an interpolation formula to pinpoint the exact mode within that class.
 
 **Formula:**
-$$\bar{x} = \frac{f_1x_1 + f_2x_2 + \dots + f_nx_n}{f_1 + f_2 + \dots + f_n} = \frac{\sum f_ix_i}{\sum f_i}$$
+$$\text{Mode} = L + \left[ \frac{f_1 - f_0}{2f_1 - f_0 - f_2} \right] \times h$$
 
-### C. For Grouped Data (Continuous Distribution)
+| Symbol    | Meaning                                                         |
+| :-------- | :-------------------------------------------------------------- |
+| **$L$**   | Lower limit of the modal class                                  |
+| **$f_1$** | Frequency of the modal class                                    |
+| **$f_0$** | Frequency of the class _preceding_ the modal class              |
+| **$f_2$** | Frequency of the class _succeeding_ (following) the modal class |
+| **$h$**   | Class size (width) of the modal class                           |
 
-For class intervals (e.g., 10-20), we find the class mark ($x_i$) which is the midpoint of the interval. Then we can use one of three methods:
-
-**1. Direct Method:**
-$$\bar{x} = \frac{\sum f_ix_i}{\sum f_i}$$
-
-**2. Assumed Mean Method (Shortcut Method):**
-Used when $x_i$ and $f_i$ are large numbers. We assume an arbitrary mean '$a$' from the middle of the $x_i$ column.
-$$\bar{x} = a + \frac{\sum f_id_i}{\sum f_i}$$
-where $d_i = x_i - a$ (deviation from assumed mean).
-
-**3. Step-Deviation Method:**
-Used when the class sizes ($h$) are equal. It simplifies calculations further.
-$$\bar{x} = a + \left( \frac{\sum f_iu_i}{\sum f_i} \right) \times h$$
-where $u_i = \frac{x_i - a}{h}$.
-
-| Symbol        | Meaning                                         |
-| :------------ | :---------------------------------------------- |
-| **$\bar{x}$** | Arithmetic Mean (read as "x bar")               |
-| **$\sum$**    | Sigma (Summation of)                            |
-| **$x_i$**     | Individual observation or Class Mark (midpoint) |
-| **$f_i$**     | Frequency of the $i^{th}$ observation           |
-| **$a$**       | Assumed Mean                                    |
-| **$d_i$**     | Deviation ($x_i - a$)                           |
-| **$u_i$**     | Step deviation ($(x_i - a)/h$)                  |
-| **$h$**       | Class size / Class width                        |
+**C. The Empirical Formula**
+If a distribution is moderately skewed, the Mode can be approximated using the Mean and Median:
+$$\text{Mode} = 3 \text{ Median} - 2 \text{ Mean}$$
 
 ## 5. Step-by-Step Method
 
-**Algorithm for Grouped Data (Assumed Mean Method):**
+**Algorithm for Grouped Data Mode (Board/Exam Procedure):**
 
-1. **Class Mark ($x_i$):** Create a new column for the midpoint of each class interval. $x_i = \frac{\text{Upper Limit} + \text{Lower Limit}}{2}$.
-2. **Choose '$a$':** Select a value near the middle of the $x_i$ column to be your Assumed Mean ($a$).
-3. **Deviations ($d_i$):** Create a column for $d_i$ by subtracting '$a$' from every $x_i$ value ($d_i = x_i - a$).
-4. **Product ($f_id_i$):** Multiply each frequency $f_i$ by its corresponding $d_i$.
-5. **Summation:** Find the sum of all frequencies ($\sum f_i$) and the sum of the products ($\sum f_id_i$).
-6. **Apply Formula:** Plug the values into $\bar{x} = a + \frac{\sum f_id_i}{\sum f_i}$.
+1. **Locate Modal Class:** Look at the frequency column. Find the highest frequency number. The class interval corresponding to this highest frequency is your Modal Class.
+2. **Extract Variables:** From the table, identify:
+   - $L$: Lower limit of that modal class.
+   - $f_1$: The highest frequency itself.
+   - $f_0$: The frequency of the row immediately _above_ the modal class.
+   - $f_2$: The frequency of the row immediately _below_ the modal class.
+   - $h$: The width of the modal class (Upper Limit - Lower Limit).
+3. **Verify Continuity:** Ensure class intervals are continuous (e.g., 0-10, 10-20). If they are discontinuous (e.g., 1-10, 11-20), adjust boundaries by 0.5 before finding $L$.
+4. **Apply Formula:** Substitute $L, f_1, f_0, f_2$, and $h$ into the formula. Follow BODMAS rules carefully to solve.
 
 ## 6. Visual Understanding
 
-**Diagram 1: Data Flow for Arithmetic Mean**
+**Diagram 1: Data Flow for Finding the Mode**
 
 ```text
-  [ Dataset Values ]
-    2, 5, 8, 9, 11
-          |
-          v
-   [ Total Sum ]
-    (2+5+8+9+11) = 35
-          |
-          v
- [ Divide by Count ]
-       (n = 5)
-          |
-          v
-   [ Arithmetic Mean ]
-     35 / 5 = 7
+    Dataset Values
+ [2, 5, 2, 7, 2, 8, 5]
+          ↓
+  Count Frequencies
+   2: ||| (3 times)
+   5: ||  (2 times)
+   7: |   (1 time)
+   8: |   (1 time)
+          ↓
+ Find Highest Frequency
+      (3 times)
+          ↓
+        Mode
+          2
 ```
 
-**Diagram 2: Mean as a Physical Balancing Point (Center of Mass)**
+**Diagram 2: Visualizing the Modal Class (Histogram Concept)**
 
 ```text
-      Values:     2         5         8
-                  |         |         |
-      Weights:   [x]       [x]       [x]
-Number Line: --+--+--+--+--+--+--+--+--+--+--
-               1  2  3  4  5  6  7  8  9  10
-                           ^
-                           |
-                        FULCRUM
-                       (Mean = 5)
-The distance of 2 from 5 is 3 units left (-3).
-The distance of 8 from 5 is 3 units right (+3).
-The sum of deviations from the mean is always ZERO (-3 + 0 + 3 = 0).
+Freq
+ |          [ f1 ]  <-- Highest Bar (Modal Class)
+ |          |    |
+ |  [ f0 ]  |    |  [ f2 ]
+ |  |    |  |    |  |    |
+ |__|____|__|____|__|____|____ Classes
+   0-10    10-20   20-30
+             ^
+             L (Lower limit of modal class)
+
+The formula effectively shifts the Mode from the center of the modal class
+towards the neighboring class that has a higher frequency (comparing f0 and f2).
 ```
 
 ## 7. Solved Examples
 
 ### Example 1 — Basic
 
-**Problem:** Find the mean of the first 5 prime numbers.
+**Problem:** Find the mode of the following data: 12, 14, 16, 12, 14, 14, 16, 14, 10, 14, 18, 14.
 **Solution steps:**
 
-1. Identify the first 5 prime numbers: 2, 3, 5, 7, 11.
-2. Count the number of observations ($n$): 5.
-3. Calculate the sum of observations ($\sum x_i$): 2 + 3 + 5 + 7 + 11 = 28.
-4. Apply the formula for raw data: $\bar{x} = \frac{\sum x_i}{n} = \frac{28}{5}$.
-5. $\bar{x} = 5.6$.
-   **Final answer:** 5.6
+1. Create a frequency tally.
+   - 10 occurs 1 time
+   - 12 occurs 2 times
+   - 14 occurs 6 times
+   - 16 occurs 2 times
+   - 18 occurs 1 time
+2. Identify the observation with the maximum frequency.
+   The value 14 occurs a maximum of 6 times.
+   **Final answer:** 14
 
 ### Example 2 — Moderate
 
-**Problem:** The mean of 5 numbers is 18. If one number is excluded, their mean becomes 16. Find the excluded number.
+**Problem:** Calculate the mode for the following frequency distribution:
+
+| Marks    | 0-20 | 20-40 | 40-60 | 60-80 | 80-100 |
+| :------- | :--- | :---- | :---- | :---- | :----- |
+| Students | 10   | 35    | 52    | 20    | 15     |
+
 **Solution steps:**
 
-1. Mean of 5 numbers = 18.
-   Therefore, Sum of 5 numbers = $5 \times 18 = 90$.
-2. When one number is excluded, 4 numbers remain.
-   New mean of 4 numbers = 16.
-   Sum of these 4 numbers = $4 \times 16 = 64$.
-3. Excluded number = (Sum of 5 numbers) - (Sum of 4 numbers).
-   Excluded number = 90 - 64 = 26.
-   **Final answer:** 26
+1. Look at the frequency row to find the maximum value.
+   The maximum frequency is 52.
+2. The class corresponding to 52 is 40-60. This is the **Modal Class**.
+3. Extract variables for the formula:
+   $L = 40$ (lower limit of 40-60)
+   $f_1 = 52$ (frequency of modal class)
+   $f_0 = 35$ (frequency of class preceding, 20-40)
+   $f_2 = 20$ (frequency of class succeeding, 60-80)
+   $h = 20$ (class size: $60 - 40$)
+4. Apply the formula:
+   $\text{Mode} = L + \left[ \frac{f_1 - f_0}{2f_1 - f_0 - f_2} \right] \times h$
+   $\text{Mode} = 40 + \left[ \frac{52 - 35}{2(52) - 35 - 20} \right] \times 20$
+   $\text{Mode} = 40 + \left[ \frac{17}{104 - 55} \right] \times 20$
+   $\text{Mode} = 40 + \left[ \frac{17}{49} \right] \times 20$
+   $\text{Mode} = 40 + \frac{340}{49} \approx 40 + 6.94$
+   **Final answer:** 46.94
 
 ### Example 3 — Advanced
 
-**Problem:** Find the mean of the following frequency distribution using the Assumed Mean Method.
+**Problem:** The mode of the following data is 36. Find the missing frequency $x$.
 
-| Class Interval    | 0-10 | 10-20 | 20-30 | 30-40 | 40-50 |
-| :---------------- | :--- | :---- | :---- | :---- | :---- |
-| Frequency ($f_i$) | 7    | 8     | 12    | 13    | 10    |
+| Class | 0-10 | 10-20 | 20-30 | 30-40 | 40-50 | 50-60 | 60-70 |
+| :---- | :--- | :---- | :---- | :---- | :---- | :---- | :---- |
+| Freq  | 8    | 10    | $x$   | 16    | 12    | 6     | 7     |
 
 **Solution steps:**
 
-1. Construct the computation table. Let assumed mean $a = 25$.
-
-| Class Interval | $f_i$               | $x_i$ (Midpoint) | $d_i = x_i - 25$ | $f_id_i$                |
-| :------------- | :------------------ | :--------------- | :--------------- | :---------------------- |
-| 0-10           | 7                   | 5                | -20              | -140                    |
-| 10-20          | 8                   | 15               | -10              | -80                     |
-| 20-30          | 12                  | **25** ($a$)     | 0                | 0                       |
-| 30-40          | 13                  | 35               | 10               | 130                     |
-| 40-50          | 10                  | 45               | 20               | 200                     |
-| **Total**      | **$\sum f_i = 50$** |                  |                  | **$\sum f_id_i = 110$** |
-
-2. Apply the Assumed Mean formula: $\bar{x} = a + \frac{\sum f_id_i}{\sum f_i}$
-3. Substitute the values: $\bar{x} = 25 + \frac{110}{50}$
-4. Simplify: $\bar{x} = 25 + 2.2 = 27.2$.
-   **Final answer:** 27.2
+1. We are given $\text{Mode} = 36$.
+2. Since 36 lies in the class interval 30-40, the **Modal Class** must be 30-40.
+3. Extract variables based on the modal class 30-40:
+   $L = 30$
+   $f_1 = 16$
+   $f_0 = x$ (frequency of preceding class 20-30)
+   $f_2 = 12$ (frequency of succeeding class 40-50)
+   $h = 10$
+4. Use the mode formula:
+   $36 = 30 + \left[ \frac{16 - x}{2(16) - x - 12} \right] \times 10$
+   $6 = \left[ \frac{16 - x}{32 - x - 12} \right] \times 10$
+   $6 = \frac{(16 - x) \times 10}{20 - x}$
+5. Cross-multiply:
+   $6(20 - x) = 160 - 10x$
+   $120 - 6x = 160 - 10x$
+   $10x - 6x = 160 - 120$
+   $4x = 40 \Rightarrow x = 10$
+   **Final answer:** 10
 
 ## 8. Interpretation in Data Science
 
-In data science, the mean is ubiquitous but must be used with extreme caution.
+In modern data analytics and machine learning, the mode plays several unique roles that the mean and median cannot fill:
 
-- **Sensitivity to Outliers:** The mean incorporates every single data point. If you have an income dataset of `[30k, 40k, 50k, 60k]` the mean is 45k. If a billionaire is added `[30k, 40k, 50k, 60k, 100000k]`, the new mean skyrockets to ~20000k. The mean is highly sensitive to extreme values (outliers).
-- **Skewed Datasets:** Because of outlier sensitivity, the mean is a poor metric for heavily skewed distributions (like wealth, house prices, or YouTube views). In right-skewed data, the mean is pulled sharply to the right.
-- **Preprocessing and Normalization:** In machine learning, algorithms (like Neural Networks or SVMs) prefer data centered around zero. We use the mean for **Standardization (Z-score normalization)**: $z = \frac{x - \mu}{\sigma}$. We subtract the dataset's mean from every feature to center the data at 0.
-- **Imputation (Feature Engineering):** When datasets have missing values (NaNs), a common baseline technique is to replace the missing values with the column's mean (Mean Imputation), provided the feature is symmetrically distributed.
+- **Handling Categorical Data:** Machine learning models often receive categorical features (e.g., `City: [Delhi, Mumbai, Delhi, Chennai]`). The mean and median mathematically cannot process strings. The mode is the _only_ central tendency measure that works natively with categorical variables.
+- **Preprocessing and Feature Engineering (Mode Imputation):** When datasets have missing values (NaNs) in categorical columns (like "Gender" or "Subscription Tier"), data scientists use **Mode Imputation**. They replace missing values with the most frequently occurring category to maintain data integrity without breaking the pipeline.
+- **Dashboards:** In marketing and sales dashboards, the mode is framed as "Top Selling Product," "Most Active User Age Group," or "Peak Traffic Hour."
+- **Insensitivity to Outliers:** The mode is absolutely immune to extreme outliers. If a dataset `[2, 3, 3, 3, 5]` suddenly changes to `[2, 3, 3, 3, 500000]`, the mode strictly remains 3.
 
 ## 9. Comparison With Other Measures
 
-| Feature                     | Mean                                                           | Median                             | Mode                                              |
-| :-------------------------- | :------------------------------------------------------------- | :--------------------------------- | :------------------------------------------------ |
-| **Mathematical Definition** | Sum divided by count                                           | The middle positional value        | Most frequently occurring value                   |
-| **Outlier Sensitivity**     | **Extremely High**                                             | Zero / Robust                      | Zero                                              |
-| **Uses all data points?**   | **Yes**                                                        | No                                 | No                                                |
-| **Best used for**           | Symmetric, clean, continuous data (e.g., heights, test scores) | Skewed data (incomes, real estate) | Categorical data (shoe sizes, most popular color) |
-| **Algebraic manipulation**  | **Highly capable** (used in variance, standard deviation)      | Not capable                        | Not capable                                       |
+| Feature                     | Mean                 | Median                      | Mode                                           |
+| :-------------------------- | :------------------- | :-------------------------- | :--------------------------------------------- |
+| **Mathematical Definition** | Sum divided by count | The middle positional value | Most frequently occurring value                |
+| **Data Types**              | Continuous, Interval | Continuous, Ordinal         | **Categorical (Nominal)**, Ordinal, Continuous |
+| **Outlier Sensitivity**     | Extremely High       | Zero (Robust)               | **Zero (Robust)**                              |
+| **Existence**               | Always exactly one   | Always exactly one          | **Can be None, One, or Multiple (Bimodal)**    |
+| **Uses all data points?**   | Yes                  | No                          | No                                             |
 
 ## 10. Exam Strategy Box
 
-> 💡 Exam Tip: Always check if the class intervals are continuous (e.g., 0-10, 10-20). If they are discontinuous (e.g., 1-10, 11-20), convert them to continuous boundaries (0.5-10.5, 10.5-20.5) before finding the class mark $x_i$, although $x_i$ remains mathematically the same either way.
-> 💡 Exam Tip: For 1-mark questions, if the mean of $n$ observations is $\bar{x}$, and you add/subtract/multiply/divide every observation by a constant $k$, the new mean is simply $\bar{x} \pm k$ or $\bar{x} \times k$.
-> 💡 Exam Tip: Do not waste time using the Step-Deviation method if the frequencies and midpoints are single-digit numbers; the Direct Method will be faster.
-> 💡 Exam Tip: The sum of the deviations of all observations from their arithmetic mean is always exactly zero: $\sum (x_i - \bar{x}) = 0$.
-> 💡 Exam Tip: When choosing an assumed mean '$a$', pick the $x_i$ value that corresponds to the highest frequency near the center to make your $f_id_i$ calculations as small as possible.
+> 💡 Exam Tip: Always check if the frequency distribution is continuous. If classes are given as 11-20, 21-30, you must convert them to 10.5-20.5, 20.5-30.5 before finding $L$, otherwise your answer will be slightly off.
+> 💡 Exam Tip: Be careful identifying $f_0, f_1, f_2$. Think of them in order: 0 comes before 1, and 2 comes after 1. So $f_1$ is the main modal class, $f_0$ is before it, $f_2$ is after it.
+> 💡 Exam Tip: Sometimes the highest frequency might occur in the very first or very last class interval. If it's the first class, $f_0 = 0$. If it's the last class, $f_2 = 0$.
+> 💡 Exam Tip: The Mode formula evaluates a ratio, meaning the final answer must ALWAYS lie strictly _between_ the lower limit ($L$) and upper limit of your modal class. If your answer falls outside this range, your calculation is mathematically wrong.
+> 💡 Exam Tip: If a 1-mark question asks for the Mode given the Mean and Median, immediately jump to the empirical formula: $\text{Mode} = 3\text{Median} - 2\text{Mean}$.
 
 ## 11. Common Student Errors
 
-> ⚠️ Common Error: Dividing by the number of classes instead of the total frequency ($\sum f_i$) in grouped data problems.
-> ⚠️ Common Error: Adding the class intervals together to find $\sum f_i$. Always sum the _frequency_ column, not the variable column.
-> ⚠️ Common Error: Messing up negative signs in the Assumed Mean method. Remember that values smaller than '$a$' will have negative $d_i$ values.
-> ⚠️ Common Error: Forgetting to multiply by the class size ($h$) at the very end when using the Step-Deviation method.
-> ⚠️ Common Error: Writing the final answer as a fraction instead of converting it to a decimal. Board exams generally prefer answers rounded to two decimal places.
+> ⚠️ Common Error: Adding up all the frequencies (finding $\sum f_i$) and trying to use $N/2$ like in the Median. The Mode does not require cumulative frequency or the total sum $N$.
+> ⚠️ Common Error: Misidentifying the Modal Class. Always look for the highest number in the _Frequency_ column, not the Class Interval column.
+> ⚠️ Common Error: Writing down the highest frequency ($f_1$) as the final answer instead of putting it into the formula.
+> ⚠️ Common Error: Messing up the denominator $2f_1 - f_0 - f_2$. Students often subtract $f_0$ but forget to subtract $f_2$, or they multiply $f_1$ incorrectly.
+> ⚠️ Common Error: Stating that a dataset with no repeating numbers has a "Mode of 0". If no number repeats, there is **No Mode**. A mode of 0 would mean the number '0' appears the most times.
 
 ## 12. Practice Exercises (NCERT + Competitive Exam Style)
 
 ### Section A: Very Short Answer (1-2 marks)
 
-1. Find the mean of the first 10 natural numbers.
-2. The mean of 6, 8, $x$, 12, and 14 is 10. Find the value of $x$.
-3. If the mean of 10 observations is 15, what is the sum of all the observations?
-4. If every value in a dataset with a mean of 40 is multiplied by 2 and then increased by 5, what is the new mean?
-5. What is the algebraic sum of deviations of a frequency distribution from its mean?
+1. Find the mode of the data: 5, 7, 9, 5, 8, 7, 5, 9, 10, 5.
+2. In a continuous frequency distribution, the modal class is 40-50, its frequency is 20, frequency of preceding class is 12 and succeeding class is 11. Find the mode.
+3. If the median of a dataset is 15.6 and the mean is 15.2, what is its approximate mode using the empirical relationship?
+4. What is the mode of a dataset where every observation occurs exactly once?
+5. Find the mode of the first 10 prime numbers.
 
 ### Section B: Short Answer (2-3 marks)
 
-6. The mean weight of 8 students is 45 kg. If a 9th student weighing 54 kg joins the group, what is the new mean weight?
-7. The mean of 20 numbers is 18. If 3 is subtracted from each of the first 10 numbers, find the new mean of the 20 numbers.
-8. Find the mean of the following distribution:
-   $x_i$: 5, 10, 15, 20, 25
-   $f_i$: 2, 5, 6, 4, 3
-9. The mean of 50 observations was found to be 36. Later it was discovered that one observation, 48, was wrongly read as 23. Find the correct mean.
-10. The average salary of 15 male employees is ₹5000 and that of 10 female employees is ₹4000. Find the combined mean salary of all 25 employees.
+6. A shoe shop sold pairs of shoes of the following sizes in a day: 6, 7, 8, 9, 6, 7, 8, 7, 6, 9, 7, 8, 7, 7. What is the modal shoe size? Why is mode useful here instead of mean?
+7. Calculate the mode of the following data:
+   $x_i$: 10, 20, 30, 40, 50
+   $f_i$: 4, 8, 12, 10, 5
+8. Find the mode of the following distribution:
+   Marks: 0-10, 10-20, 20-30, 30-40, 40-50
+   Students: 5, 12, 20, 11, 4
+9. Convert the following discontinuous data into continuous classes and find the modal class and its lower limit ($L$):
+   Class: 1-5, 6-10, 11-15, 16-20
+   Freq: 3, 8, 15, 6
+10. Can a distribution have more than one mode? Give a real-life example where this might happen.
 
 ### Section C: Exam Level Problems (4-5 marks)
 
-11. Calculate the mean of the following data using the Direct Method:
-    Classes: 10-20, 20-30, 30-40, 40-50, 50-60
-    Frequency: 4, 7, 10, 6, 3
-12. Find the missing frequency '$p$' if the mean of the following distribution is 24:
-    Classes: 0-10, 10-20, 20-30, 30-40, 40-50
-    Frequency: 3, 4, $p$, 3, 2
-13. Find the mean of the following data using the Assumed Mean method:
-    Classes: 100-120, 120-140, 140-160, 160-180, 180-200
-    Frequency: 12, 14, 8, 6, 10
-14. The following table gives the literacy rate of 35 cities. Find the mean literacy rate using the step-deviation method.
-    Literacy rate (%): 45-55, 55-65, 65-75, 75-85, 85-95
-    Number of cities: 3, 10, 11, 8, 3
-15. The mean of the following frequency distribution is 50. Find the missing frequencies $f_1$ and $f_2$ if the sum of all frequencies is 120.
-    Classes: 0-20, 20-40, 40-60, 60-80, 80-100
-    Frequency: 17, $f_1$, 32, $f_2$, 19
+11. Compute the mode for the following frequency distribution:
+    Class: 0-20, 20-40, 40-60, 60-80, 80-100, 100-120
+    Frequency: 10, 35, 52, 61, 38, 29
+12. Given that the mode of the distribution below is 34.5, find the missing frequency $y$.
+    Class: 0-10, 10-20, 20-30, 30-40, 40-50
+    Freq: 4, 8, 10, $y$, 8
+13. The following data gives the distribution of total monthly household expenditure of 200 families. Find the modal monthly expenditure.
+    Expenditure (₹): 1000-1500, 1500-2000, 2000-2500, 2500-3000, 3000-3500, 3500-4000, 4000-4500, 4500-5000
+    Families: 24, 40, 33, 28, 30, 22, 16, 7
+14. The mode of a grouped frequency distribution is 75 and the modal class is 65-80. The frequency of the class preceding the modal class is 6 and the frequency of the class succeeding the modal class is 8. Find the frequency of the modal class.
+15. Calculate the mean, median, and mode for the following data using standard formulas, and verify if the empirical relation $\text{Mode} \approx 3\text{Median} - 2\text{Mean}$ holds true.
+    Class: 0-10, 10-20, 20-30, 30-40, 40-50
+    Frequency: 3, 4, 7, 4, 2
 
 ### Section D: Conceptual Reasoning (For Data Science & Advanced Competitions)
 
-16. Why does replacing missing values with the column mean (Mean Imputation) artificially reduce the variance (spread) of a dataset?
-17. A startup has 10 employees. 9 earn ₹40,000, and the CEO earns ₹4,000,000. Why is the mean a bad metric for an HR report here, and what is a better alternative?
-18. Prove conceptually that $\sum (x_i - \bar{x}) = 0$. What does this imply physically?
-19. If you scale a dataset (e.g., convert temperatures from Celsius to Fahrenheit $F = 1.8C + 32$), does the mean undergo the exact same transformation? Why?
-20. In what specific scenario would the arithmetic mean and the median of a dataset be exactly equal?
+16. Why is Mode Imputation preferred over Mean Imputation when handling missing values in a "Car Brand" column of a dataset?
+17. A clothing retailer is looking at last year's sales. The Mean shirt size sold was Medium-Large, the Median was Large, but the Mode was Small. Which metric should dictate their manufacturing order for the next year? Why?
+18. If every value in a dataset is multiplied by a constant $k$, what happens to the mode? Prove it conceptually.
+19. What happens to the Mode grouped data formula if the maximum frequency is shared by two adjacent classes (e.g., $f_1 = f_0 = 20$)?
+20. Why do data scientists plot a histogram or Kernel Density Estimate (KDE) plot to visually inspect for "bimodal" distributions before applying standard linear regression?
 
 ## 13. Fully Solved Answers
 
 ### Section A
 
-**1. Solution:** First 10 natural numbers: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.
-Sum = $\frac{n(n+1)}{2} = \frac{10 \times 11}{2} = 55$. Mean = $\frac{55}{10} = 5.5$.
-**Final Answer:** 5.5.
+**1. Solution:**
+Frequencies: 5 (four times), 7 (two times), 9 (two times), 8, 10 (one time each). Highest frequency is 4, for the value 5.
+**Final Answer:** 5.
 
-**2. Solution:** Mean = 10. $n = 5$. Sum = $5 \times 10 = 50$.
-$6 + 8 + x + 12 + 14 = 50 \Rightarrow 40 + x = 50 \Rightarrow x = 10$.
-**Final Answer:** 10.
+**2. Solution:**
+$L = 40$, $f_1 = 20$, $f_0 = 12$, $f_2 = 11$, $h = 10$.
+Mode = $40 + \left[ \frac{20 - 12}{2(20) - 12 - 11} \right] \times 10 = 40 + \left[ \frac{8}{40 - 23} \right] \times 10 = 40 + \left[ \frac{8}{17} \right] \times 10 = 40 + 4.71 = 44.71$.
+**Final Answer:** 44.71.
 
-**3. Solution:** Sum = Mean $\times$ Total observations = $15 \times 10 = 150$.
-**Final Answer:** 150.
+**3. Solution:**
+$\text{Mode} = 3\text{Median} - 2\text{Mean} = 3(15.6) - 2(15.2) = 46.8 - 30.4 = 16.4$.
+**Final Answer:** 16.4.
 
-**4. Solution:** By the property of means, if $y = ax + b$, then $\bar{y} = a\bar{x} + b$.
-New mean = $(40 \times 2) + 5 = 80 + 5 = 85$.
-**Final Answer:** 85.
+**4. Solution:**
+If every observation occurs exactly once, there is no value that appears more frequently than the others.
+**Final Answer:** No Mode.
 
-**5. Solution:** The algebraic sum of deviations from the mean is always zero.
-**Final Answer:** 0.
+**5. Solution:**
+First 10 primes: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29. No number repeats.
+**Final Answer:** No Mode.
 
 ### Section B
 
 **6. Solution:**
-Original sum of 8 students = $8 \times 45 = 360$ kg.
-New sum with 9th student = $360 + 54 = 414$ kg.
-New mean = $\frac{414}{9} = 46$ kg.
-**Final Answer:** 46 kg.
+Frequencies: 6 (three times), 7 (six times), 8 (three times), 9 (two times). Maximum frequency is 6 for size 7. The mode is useful because a retailer must stock the exact sizes customers buy. You cannot stock an "average" shoe size if it's a fraction.
+**Final Answer:** 7.
 
 **7. Solution:**
-Original sum of 20 numbers = $20 \times 18 = 360$.
-Total subtracted amount = $10 \times 3 = 30$.
-New sum = $360 - 30 = 330$.
-New mean = $\frac{330}{20} = 16.5$.
-**Final Answer:** 16.5.
+
+| $x_i$ | $f_i$  |
+| :---- | :----- |
+| 10    | 4      |
+| 20    | 8      |
+| 30    | **12** |
+| 40    | 10     |
+| 50    | 5      |
+
+Highest frequency is 12, corresponding to $x_i = 30$.
+**Final Answer:** 30.
 
 **8. Solution:**
 
-| $x_i$   | $f_i$           | $f_ix_i$            |
-| :------ | :-------------- | :------------------ |
-| 5       | 2               | 10                  |
-| 10      | 5               | 50                  |
-| 15      | 6               | 90                  |
-| 20      | 4               | 80                  |
-| 25      | 3               | 75                  |
-| **Sum** | $\sum f_i = 20$ | $\sum f_ix_i = 305$ |
+| Marks     | Students ($f_i$) |
+| :-------- | :--------------- |
+| 0-10      | 5                |
+| 10-20     | 12               |
+| **20-30** | **20**           |
+| 30-40     | 11               |
+| 40-50     | 4                |
 
-Mean = $\frac{305}{20} = 15.25$.
-**Final Answer:** 15.25.
+Modal class = 20-30. $L=20, f_1=20, f_0=12, f_2=11, h=10$.
+Mode = $20 + \left[ \frac{20 - 12}{40 - 12 - 11} \right] \times 10 = 20 + \left[ \frac{8}{17} \right] \times 10 = 20 + 4.7 = 24.7$.
+**Final Answer:** 24.7.
 
 **9. Solution:**
-Incorrect Sum = $50 \times 36 = 1800$.
-Correct Sum = Incorrect Sum - Wrong Item + Correct Item = $1800 - 23 + 48 = 1825$.
-Correct Mean = $\frac{1825}{50} = 36.5$.
-**Final Answer:** 36.5.
+Convert to continuous boundaries by subtracting 0.5 from lower limit and adding 0.5 to upper limit.
+
+| Cont. Class     | Freq   |
+| :-------------- | :----- |
+| 0.5 - 5.5       | 3      |
+| 5.5 - 10.5      | 8      |
+| **10.5 - 15.5** | **15** |
+| 15.5 - 20.5     | 6      |
+
+Modal class is 10.5 - 15.5.
+**Final Answer:** Modal class is 10.5 - 15.5, $L = 10.5$.
 
 **10. Solution:**
-Combined Mean $\bar{x}_{12} = \frac{n_1\bar{x}_1 + n_2\bar{x}_2}{n_1 + n_2}$
-Sum of male salaries = $15 \times 5000 = 75000$.
-Sum of female salaries = $10 \times 4000 = 40000$.
-Total sum = $115000$. Total employees = 25.
-Combined Mean = $\frac{115000}{25} = 4600$.
-**Final Answer:** ₹4600.
+Yes, a distribution can be bimodal or multimodal. A real-life example: The sizes of shoes sold in a store that caters equally to both adult men and adult women. You would likely see a high peak around size 7 (women) and another high peak around size 10 (men).
+**Final Answer:** Yes (e.g., Bimodal distribution).
 
 ### Section C
 
 **11. Solution:**
 
-| Class   | $x_i$ | $f_i$           | $f_ix_i$             |
-| :------ | :---- | :-------------- | :------------------- |
-| 10-20   | 15    | 4               | 60                   |
-| 20-30   | 25    | 7               | 175                  |
-| 30-40   | 35    | 10              | 350                  |
-| 40-50   | 45    | 6               | 270                  |
-| 50-60   | 55    | 3               | 165                  |
-| **Sum** |       | $\sum f_i = 30$ | $\sum f_ix_i = 1020$ |
+| Class     | Frequency |
+| :-------- | :-------- |
+| 0-20      | 10        |
+| 20-40     | 35        |
+| 40-60     | 52        |
+| **60-80** | **61**    |
+| 80-100    | 38        |
+| 100-120   | 29        |
 
-Mean = $\frac{1020}{30} = 34$.
-**Final Answer:** 34.
+Modal Class = 60-80. $L=60, f_1=61, f_0=52, f_2=38, h=20$.
+Mode = $60 + \left[ \frac{61 - 52}{2(61) - 52 - 38} \right] \times 20 = 60 + \left[ \frac{9}{122 - 90} \right] \times 20$
+Mode = $60 + \left[ \frac{9}{32} \right] \times 20 = 60 + \frac{180}{32} = 60 + 5.625 = 65.625$.
+**Final Answer:** 65.625.
 
 **12. Solution:**
-
-| Class   | $x_i$ | $f_i$  | $f_ix_i$    |
-| :------ | :---- | :----- | :---------- |
-| 0-10    | 5     | 3      | 15          |
-| 10-20   | 15    | 4      | 60          |
-| 20-30   | 25    | $p$    | $25p$       |
-| 30-40   | 35    | 3      | 105         |
-| 40-50   | 45    | 2      | 90          |
-| **Sum** |       | $12+p$ | $270 + 25p$ |
-
-Given Mean = 24.
-$24 = \frac{270 + 25p}{12 + p}$
-$24(12 + p) = 270 + 25p \Rightarrow 288 + 24p = 270 + 25p$
-$288 - 270 = 25p - 24p \Rightarrow p = 18$.
-**Final Answer:** $p = 18$.
+Given Mode = 34.5. This value falls in the class 30-40.
+Therefore, Modal Class = 30-40.
+$L=30, f_1=y, f_0=10, f_2=8, h=10$.
+$34.5 = 30 + \left[ \frac{y - 10}{2y - 10 - 8} \right] \times 10$
+$4.5 = \left[ \frac{y - 10}{2y - 18} \right] \times 10 \Rightarrow 4.5 = \frac{10y - 100}{2y - 18}$
+$4.5(2y - 18) = 10y - 100 \Rightarrow 9y - 81 = 10y - 100$
+$100 - 81 = 10y - 9y \Rightarrow y = 19$.
+**Final Answer:** $y = 19$.
 
 **13. Solution:**
-Let Assumed Mean $a = 150$.
 
-| Class   | $f_i$           | $x_i$ | $d_i = x_i - 150$ | $f_id_i$             |
-| :------ | :-------------- | :---- | :---------------- | :------------------- |
-| 100-120 | 12              | 110   | -40               | -480                 |
-| 120-140 | 14              | 130   | -20               | -280                 |
-| 140-160 | 8               | 150   | 0                 | 0                    |
-| 160-180 | 6               | 170   | 20                | 120                  |
-| 180-200 | 10              | 190   | 40                | 400                  |
-| **Sum** | $\sum f_i = 50$ |       |                   | $\sum f_id_i = -240$ |
+| Expenditure   | Families |
+| :------------ | :------- |
+| 1000-1500     | 24       |
+| **1500-2000** | **40**   |
+| 2000-2500     | 33       |
+| 2500-3000     | 28       |
+| ...           | ...      |
 
-$\bar{x} = a + \frac{\sum f_id_i}{\sum f_i} = 150 + (\frac{-240}{50}) = 150 - 4.8 = 145.2$.
-**Final Answer:** 145.2.
+Max frequency is 40. Modal class is 1500-2000.
+$L=1500, f_1=40, f_0=24, f_2=33, h=500$.
+Mode = $1500 + \left[ \frac{40 - 24}{80 - 24 - 33} \right] \times 500 = 1500 + \left[ \frac{16}{80 - 57} \right] \times 500 = 1500 + \left[ \frac{16}{23} \right] \times 500$
+Mode = $1500 + \frac{8000}{23} \approx 1500 + 347.83 = 1847.83$.
+**Final Answer:** ₹ 1847.83.
 
 **14. Solution:**
-Class size $h = 10$. Let Assumed Mean $a = 70$.
-
-| Class   | $f_i$           | $x_i$    | $u_i = \frac{x_i - 70}{10}$ | $f_iu_i$           |
-| :------ | :-------------- | :------- | :-------------------------- | :----------------- |
-| 45-55   | 3               | 50       | -2                          | -6                 |
-| 55-65   | 10              | 60       | -1                          | -10                |
-| 65-75   | 11              | 70 ($a$) | 0                           | 0                  |
-| 75-85   | 8               | 80       | 1                           | 8                  |
-| 85-95   | 3               | 90       | 2                           | 6                  |
-| **Sum** | $\sum f_i = 35$ |          |                             | $\sum f_iu_i = -2$ |
-
-$\bar{x} = a + (\frac{\sum f_iu_i}{\sum f_i}) \times h = 70 + (\frac{-2}{35}) \times 10 = 70 - \frac{20}{35} = 70 - 0.57 = 69.43$.
-**Final Answer:** 69.43%.
+Given: Mode = 75, Modal class = 65-80, $f_0 = 6, f_2 = 8, L = 65, h = 15$. Find $f_1$.
+$75 = 65 + \left[ \frac{f_1 - 6}{2f_1 - 6 - 8} \right] \times 15$
+$10 = \left[ \frac{f_1 - 6}{2f_1 - 14} \right] \times 15$
+$\frac{10}{15} = \frac{f_1 - 6}{2f_1 - 14} \Rightarrow \frac{2}{3} = \frac{f_1 - 6}{2f_1 - 14}$
+$2(2f_1 - 14) = 3(f_1 - 6) \Rightarrow 4f_1 - 28 = 3f_1 - 18$
+$4f_1 - 3f_1 = 28 - 18 \Rightarrow f_1 = 10$.
+**Final Answer:** 10.
 
 **15. Solution:**
 
-| Class   | $x_i$ | $f_i$                   | $f_ix_i$                         |
-| :------ | :---- | :---------------------- | :------------------------------- |
-| 0-20    | 10    | 17                      | 170                              |
-| 20-40   | 30    | $f_1$                   | $30f_1$                          |
-| 40-60   | 50    | 32                      | 1600                             |
-| 60-80   | 70    | $f_2$                   | $70f_2$                          |
-| 80-100  | 90    | 19                      | 1710                             |
-| **Sum** |       | $\sum f_i = 68+f_1+f_2$ | $\sum f_ix_i = 3480+30f_1+70f_2$ |
+| Class     | $f_i$  | $x_i$ | $f_ix_i$ | $cf$ |
+| :-------- | :----- | :---- | :------- | :--- |
+| 0-10      | 3      | 5     | 15       | 3    |
+| 10-20     | 4      | 15    | 60       | 7    |
+| **20-30** | **7**  | 25    | 175      | 14   |
+| 30-40     | 4      | 35    | 140      | 18   |
+| 40-50     | 2      | 45    | 90       | 20   |
+| **Sum**   | $N=20$ |       | 480      |      |
 
-Given $\sum f_i = 120 \Rightarrow 68 + f_1 + f_2 = 120 \Rightarrow f_1 + f_2 = 52$ --- (Eq 1)
-Given Mean = 50.
-$50 = \frac{3480 + 30f_1 + 70f_2}{120}$
-$6000 = 3480 + 30f_1 + 70f_2 \Rightarrow 2520 = 30f_1 + 70f_2$
-Divide by 10: $3f_1 + 7f_2 = 252$ --- (Eq 2)
-From Eq 1, $f_1 = 52 - f_2$. Substitute in Eq 2:
-$3(52 - f_2) + 7f_2 = 252 \Rightarrow 156 - 3f_2 + 7f_2 = 252$
-$4f_2 = 96 \Rightarrow f_2 = 24$.
-Then $f_1 = 52 - 24 = 28$.
-**Final Answer:** $f_1 = 28, f_2 = 24$.
+**Mean:** $\bar{x} = 480 / 20 = 24$.
+**Median:** $N/2 = 10$. Median class is 20-30. $L=20, cf=7, f=7, h=10$.
+Median = $20 + [\frac{10 - 7}{7}] \times 10 = 20 + \frac{30}{7} = 20 + 4.28 = 24.28$.
+**Mode:** Modal class is 20-30. $L=20, f_1=7, f_0=4, f_2=4, h=10$.
+Mode = $20 + [\frac{7 - 4}{14 - 4 - 4}] \times 10 = 20 + [\frac{3}{6}] \times 10 = 20 + 5 = 25$.
+**Verification:** $3\text{Median} - 2\text{Mean} = 3(24.28) - 2(24) = 72.84 - 48 = 24.84$.
+Mode (25) $\approx$ Empirical Mode (24.84). The relation holds closely.
+**Final Answer:** Mean=24, Median=24.28, Mode=25. Verified.
 
 ### Section D
 
-**16. Solution:** Variance measures how spread out data points are from the mean. By replacing missing values with the exact mean itself, you are adding points with zero spread (deviation = 0). This dilutes the overall spread of the data, artificially clustering the distribution closer to the center than it naturally is.
-**17. Solution:** The CEO's extreme salary is an outlier that pulls the mean upwards dramatically. The mean salary would be roughly ₹436,000, which is over 10x what 90% of the company actually earns. It is highly misleading. The Median (₹40,000) is a much better, robust metric for typical pay.
-**18. Solution:** $\sum (x_i - \bar{x}) = \sum x_i - \sum \bar{x} = n\bar{x} - n\bar{x} = 0$. Physically, this means the mean acts as the exact center of gravity/mass of the dataset. The total "pull" of the values above the mean perfectly cancels out the total "pull" of the values below it.
-**19. Solution:** Yes, the mean is affected by both changes in scale (multiplication) and changes in origin (addition). Since the transformation is linear ($y = mx + c$), the mean transforms exactly the same way: $\bar{F} = 1.8\bar{C} + 32$.
-**20. Solution:** They are exactly equal when the dataset's distribution is perfectly symmetrical (e.g., a perfect normal distribution curve like `[10, 20, 30, 40, 50]`). There is no skewness to pull the mean away from the median center.
+**16. Solution:** "Car Brand" is a categorical variable (e.g., Toyota, Honda, Ford). The mathematical mean of strings does not exist. The mode represents the most frequently occurring brand in the dataset, making it the only logical choice to fill in missing string/categorical data cleanly.
+**17. Solution:** They should use the **Mode** (Small). In manufacturing retail, you must produce what people actually buy most often. The mean and median might be skewed by a few extremely large sizes, but if the vast majority of sales transactions are for 'Small' shirts, producing 'Large' shirts will result in unsold inventory.
+**18. Solution:** The mode is also multiplied by $k$. If the value '5' appeared the most times in the dataset, and every number is multiplied by 3, the number '15' will now appear the exact same most number of times.
+**19. Solution:** If $f_1 = f_0$, the numerator $(f_1 - f_0)$ becomes 0. The formula mathematically results in $\text{Mode} = L + 0 = L$. This physically means the mode sits exactly at the lower boundary separating the two equally high class intervals.
+**20. Solution:** Linear regression models and standard metrics often assume data is "normally distributed" (a single bell curve). If data is bimodal (two peaks, like height of mixed men and women), the mean falls right in the empty middle, representing nobody. Data scientists split bimodal datasets into two separate groups before modeling.
 
 ## 14. Real Dataset Example
 
-**Dataset Context: House Prices in a Neighborhood**
-Let's analyze the prices of 5 houses recently sold in a suburban neighborhood.
-Prices (in ₹ Crores): `1.0, 1.2, 1.1, 1.3, 10.4`
+**Dataset Context: User Ratings on a Shopping App**
+Let's analyze the 5-star ratings for a newly released mobile phone case.
+Ratings data: `[1, 5, 5, 5, 4, 5, 1, 5, 5, 3]`
 
-**Mean Calculation:**
-Sum = $1.0 + 1.2 + 1.1 + 1.3 + 10.4 = 15.0$ Cr.
-Mean = $\frac{15.0}{5} = \textbf{₹ 3.0 Cr}$.
+**Calculations:**
+
+- Mean Rating = (1+5+5+5+4+5+1+5+5+3) / 10 = **3.9 stars**
+- Mode Rating = **5 stars** (appears 6 times out of 10)
 
 **Interpretation:**
-The arithmetic mean suggests the average house price is ₹3.0 Cr. However, looking at the data, 4 out of 5 houses cost around ₹1.1 Cr. The ₹10.4 Cr house is a massive luxury mansion (an outlier). This demonstrates the primary weakness of the mean in data science: **it is highly sensitive to extreme values.** In business dashboards for real estate, displaying this mean would mislead buyers into thinking the neighborhood is unaffordable.
+If a user just looks at the Mean (3.9 stars), they might think the product is mediocre or average. However, the Mode (5 stars) tells a very different story: the vast majority of people absolutely loved the product. The mean was dragged down by just two angry users who left 1-star reviews. For categorical or ordinal data (like 1 to 5 star ratings), dashboards often display the Mode ("Most users rated this 5 stars!") alongside the mean to provide a complete picture of customer sentiment.
 
 ## 15. Quick Revision Sheet
 
-- **Definition:** The arithmetic average; sum of values divided by count.
-- **Formula (Raw):** $\bar{x} = \frac{\sum x_i}{n}$
-- **Formula (Direct Grouped):** $\bar{x} = \frac{\sum f_ix_i}{\sum f_i}$
-- **Formula (Assumed Mean):** $\bar{x} = a + \frac{\sum f_id_i}{\sum f_i}$
-- **Key Property 1:** The sum of deviations from the mean is 0.
-- **Key Property 2:** If $y_i = a \cdot x_i + b$, then $\bar{y} = a \cdot \bar{x} + b$.
-- **Weakness:** Severely distorted by outliers and skewed data.
-- **Data Science Use:** Used heavily for feature scaling (Z-score standardization) and base imputation for symmetric data.
+- **Definition:** The value that occurs with the maximum frequency.
+- **Best Used For:** Categorical data, nominal data, finding popular items, determining inventory.
+- **Formula (Grouped):** $L + \left[ \frac{f_1 - f_0}{2f_1 - f_0 - f_2} \right] \times h$
+- **Empirical Formula:** $\text{Mode} = 3\text{Median} - 2\text{Mean}$
+- **Key Property 1:** Can be calculated for open-ended class intervals.
+- **Key Property 2:** Completely unaffected by extreme outliers.
+- **Data Science Use:** Mode imputation for replacing missing categorical/string values in data preprocessing pipelines.
 
 ## 16. Interview & Data Science Questions
 
 ### Beginner
 
-**Q:** How do you handle missing values in a machine learning dataset containing human heights?
-**A:** Because human height follows a symmetric normal distribution with few extreme outliers, replacing missing values with the column's mean (Mean Imputation) is a safe and standard approach.
+**Q:** Which pandas function in Python would you use to find the mode of a column named 'City'?
+**A:** `df['City'].mode()[0]`. Note that `.mode()` returns a series because there can be multiple modes, so `[0]` extracts the first one.
 
 ### Intermediate
 
-**Q:** Why do we use Mean Squared Error (MSE) instead of Mean Absolute Error (MAE) in training regression models?
-**A:** While both rely on the mean of errors, MSE squares the differences, which punishes large outliers much more heavily than MAE. Furthermore, squaring makes the cost function smooth and differentiable everywhere, which is mathematically necessary for gradient descent optimization algorithms.
+**Q:** You have a dataset of 1 million salaries. It has a massive right skew (most people make 50k, a few make 10 million). Sort the Mean, Median, and Mode in ascending order.
+**A:** Mode < Median < Mean. The mode stays at the absolute peak of the curve (50k). The median is slightly pulled to the right. The mean is pulled aggressively to the right by the multimillionaires.
 
 ### Advanced
 
-**Q:** Explain the impact of standardization ($z = (x - \mu)/\sigma$) on the arithmetic mean of a feature.
-**A:** Standardization guarantees that the new arithmetic mean of the transformed feature will be exactly zero. By subtracting the original mean ($\mu$) from every point, the entire distribution shifts along the number line so that its center of mass now perfectly balances at the origin (0).
+**Q:** When performing Mode Imputation on a categorical feature in a machine learning pipeline, what is the risk of doing it before performing a Train-Test split?
+**A:** Doing it before the split causes **Data Leakage**. The mode of the entire dataset (including the test set) leaks into the training data. Mode imputation must be calculated _only_ on the training set, and that specific value should be used to impute both train and test sets.
 
 ## 17. Mini Quiz
 
-**1. The mean of 11 observations is 50. If the first 6 observations have a mean of 49 and the last 6 observations have a mean of 52, what is the 6th observation?**
-A) 56
-B) 50
-C) 48
-D) 45
+**1. The empirical relationship between Mean, Median, and Mode is:**
+A) Mean = 3 Median - 2 Mode
+B) Mode = 3 Median - 2 Mean
+C) Median = 3 Mode - 2 Mean
+D) Mode = 2 Median - 3 Mean
 
-**2. Which measure of central tendency is calculated by considering the magnitude of every single item in the series?**
-A) Mode
-B) Median
-C) Arithmetic Mean
-D) Range
+**2. Which of the following data types can ONLY be analyzed using the Mode?**
+A) Continuous (e.g., Weights)
+B) Interval (e.g., Temperatures)
+C) Nominal/Categorical (e.g., Hair Color)
+D) Ratio (e.g., Distances)
 
-**3. In the assumed mean method formula $\bar{x} = a + \frac{\sum f_id_i}{\sum f_i}$, what does $d_i$ represent?**
-A) $f_i - a$
-B) $x_i - a$
-C) $a - x_i$
-D) $x_i / a$
+**3. In the formula for grouped Mode, the term $f_0$ refers to:**
+A) The lowest frequency in the table
+B) The frequency of the modal class
+C) The frequency of the class succeeding the modal class
+D) The frequency of the class preceding the modal class
 
-**4. A dataset contains house prices, heavily right-skewed by a few luxury mansions. Which metric will report the highest numerical value?**
-A) Mean
-B) Median
-C) Mode
-D) They will be equal
+**4. A dataset is bimodal. This means:**
+A) The mode is equal to the mean
+B) The mode is zero
+C) The dataset has two values that share the highest frequency
+D) The dataset has no mode
 
-**5. If $\sum_{i=1}^{n} (x_i - 12) = 0$, then the arithmetic mean of the dataset is:**
-A) 0
-B) $12n$
-C) 12
-D) Cannot be determined
+**5. If the maximum frequency of a grouped distribution is 25, and both the preceding and succeeding classes have a frequency of 10, where will the Mode lie?**
+A) Closer to the lower limit of the modal class
+B) Closer to the upper limit of the modal class
+C) Exactly in the middle of the modal class
+D) Outside the modal class
 
 ## Mini Quiz Answer Key
 
-1. A
+1. B
 2. C
-3. B
-4. A
+3. D
+4. C
 5. C
