@@ -47,26 +47,6 @@ Formatting must remain fully compatible with Notion markdown import.
 
 ---
 
-# INPUT VARIABLES
-
-Subject:
-
-Statistics
-
-Module:
-
-Descriptive Statistics
-
-Lecture:
-
-Lecture 1 : Mean
-
-Audience Level:
-
-Beginner to Expert
-
----
-
 # WRITING STYLE REQUIREMENT ✏️
 
 Write in the style of:
@@ -76,13 +56,13 @@ Write in the style of:
 - Pearson Statistics Foundations
 - introductory Data Science textbooks
 
-Avoid headings like:
+Include like:
 
 Formal Definition
 Deep Dive Section
 Properties and Theorems
 
-Use student-friendly structured explanation instead.
+Use student-friendly structured explanation.
 
 ---
 
@@ -113,15 +93,15 @@ Update the lecture file so it contains EXACTLY the following sections in this or
 
 ### Example 3 — Advanced
 
-## 8. Interpretation in Data Science
+## 8. Interpretation in Data Science witch Case Studies (Atleast 3 Very detailed ones)
 
 ## 9. Comparison With Other Measures
 
-## 10. Exam Strategy Box
+## 10. Strategy Box with respect Data science
 
-## 11. Common Student Errors
+## 11. Common Errors as Data Scientist
 
-## 12. Practice Exercises (NCERT + Competitive Exam Style)
+## 12. Practice Exercises
 
 ### Section A: Very Short Answer (5)
 
@@ -182,7 +162,7 @@ Arithmetic Mean
 
 # MATHEMATICS RULE 📐
 
-Because the lecture topic is **Mean**, include:
+Because the lecture topic is **<topic>**, include:
 
 - symbol definitions
 - derivation intuition
@@ -201,7 +181,7 @@ Include a **symbol meaning table** when formulas appear.
 
 The lecture must clearly explain:
 
-- behaviour of mean in skewed datasets
+- behaviour of <topic> in relation to data science
 - sensitivity to outliers
 - role in dashboards
 - role in preprocessing pipelines
