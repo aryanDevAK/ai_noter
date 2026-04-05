@@ -1,505 +1,343 @@
-# Lecture 3: Mode
+# Lecture 3: Bayes Theorem
 
 ## 1. Why This Concept Matters
 
-Imagine you own a shoe store and want to restock your inventory. You calculate the arithmetic mean of all the shoe sizes sold last month and get a size of 8.34. Can you order a shoe of size 8.34? No! Even if you round it to 8.5, it might not represent what most people actually buy. Instead, you need to know the _most frequently sold_ shoe size. If size 9 sold the most pairs, that is the size you need to stock up on.
+Have you ever wondered how your email filter knows a message is "Spam"? Or how a doctor decides if a positive medical test actually means you have a disease? They use **Bayes Theorem**.
 
-This most popular, most frequent value is called the **Mode**. In business, elections, and data science, we often don't care about the mathematical average or the exact middle; we want to know what happens most often. What is the most common customer complaint? Which product is the bestseller? What is the most common color of cars on the highway? The Mode answers these questions.
+In real life, we rarely know the exact truth. We only see **clues** (evidence). Bayes Theorem is a magical mathematical rule that helps us work backwards: it uses the clues we see to figure out the exact chance of the hidden truth. It is the absolute foundation of Machine Learning, Artificial Intelligence, and modern Data Science.
 
 ## 2. Understanding the Idea Intuitively
 
-Think of the Mode as the winner of a popularity contest.
+Let's use a simple, everyday story to understand this.
 
-If you ask 10 friends what their favorite color is, and 6 say Blue, 3 say Red, and 1 says Green, the "Blue" color wins the contest. It has the highest number of votes. It is the Mode.
+**The "Wet Grass" Case Study**
+Imagine you wake up, look out the window, and see that the grass is wet. This is your **New Evidence**.
+Why is it wet? There are two possible causes:
 
-Unlike the Mean, which requires numbers to add up, or the Median, which requires ordering, the Mode simply looks for repetition. It is the only measure of central tendency that makes perfect sense for non-numerical (categorical) data, like colors, brands, or names.
+1. It rained last night.
+2. The water sprinkler was left on.
+
+If you live in a desert, rain is extremely rare. So, your brain automatically guesses the sprinkler caused it.
+If you live in a rainforest, your brain immediately guesses it was rain.
+
+**Bayes Theorem is just your brain's logic turned into math!**
+It takes your **Initial Belief** (e.g., "it rarely rains here") and updates it using **New Evidence** (e.g., "the grass is wet") to give you an **Updated Belief** (the exact mathematical chance that it was rain).
+
+- **Prior (Initial Belief):** What you knew before the clue.
+- **Evidence (The Clue):** What you just observed.
+- **Posterior (Updated Belief):** Your new, smarter guess after seeing the clue.
 
 ## 3. Observing Patterns From Data
 
-Let's look at the daily number of coffees consumed by an office worker over 7 days:
-`[2, 1, 2, 4, 2, 1, 3]`
+Let's look at a pattern in a school.
 
-**Step 1:** Count how many times each number appears.
+- We know that 60% of students are boys and 40% are girls.
+- We also know that 10% of boys wear glasses, and 20% of girls wear glasses.
 
-- 1 coffee: appears 2 times
-- 2 coffees: appears 3 times
-- 3 coffees: appears 1 time
-- 4 coffees: appears 1 time
+If we see a student walking far away and notice they are **wearing glasses** (our clue), Bayes Theorem helps us reverse the pattern. Instead of asking "How many boys wear glasses?", we ask the reverse: "Given that the student wears glasses, what is the chance it is a boy?"
 
-**Step 2:** Find the number with the highest count.
-The number `2` appears most frequently (3 times).
-
-Therefore, the Mode = 2 coffees.
-If another week the data was `[1, 1, 2, 2, 3, 4]`, we would have two modes: 1 and 2. This is called a **bimodal** distribution.
+We observe the "forward" pattern from historical data, and Bayes Theorem helps us calculate the "backward" prediction.
 
 ## 4. Rule for Finding the Concept
 
-The calculation of the Mode depends entirely on the form of the data.
+Here is the famous formula for Bayes Theorem, simplified:
 
-**A. For Raw/Ungrouped Data**
+**P(A|B) = [ P(B|A) × P(A) ] / P(B)**
 
-Simply count the frequencies of each observation. The observation with the highest frequency is the Mode.
+### Definition Cheat Sheet & Symbol Table
 
-**B. For Grouped Data (Continuous Distribution)**
+| Symbol      | Simple Name    | Exact Meaning                                                                | Example                                              |
+| :---------- | :------------- | :--------------------------------------------------------------------------- | :--------------------------------------------------- |
+| **P(A)**    | **Prior**      | The chance of Event A happening naturally, before any clues.                 | Chance of having a disease (1%).                     |
+| **P(B)**    | **Evidence**   | The total chance of the clue happening, no matter what.                      | Total chance of a positive test.                     |
+| **P(B\|A)** | **Likelihood** | The chance of seeing the clue B, _if_ A is actually true.                    | Chance of a positive test _if_ you are sick.         |
+| **P(A\|B)** | **Posterior**  | **The Final Answer.** The chance that A is true, _given_ that we saw clue B. | Chance you are actually sick, given a positive test. |
 
-When data is grouped into class intervals (e.g., 10-20), we cannot see individual values to count them. Instead, we first find the **Modal Class** (the class interval with the highest frequency) and then use an interpolation formula to pinpoint the exact mode within that class.
-
-**Formula:**
-$$\text{Mode} = L + \left[ \frac{f_1 - f_0}{2f_1 - f_0 - f_2} \right] \times h$$
-
-| Symbol    | Meaning                                                         |
-| :-------- | :-------------------------------------------------------------- |
-| **$L$**   | Lower limit of the modal class                                  |
-| **$f_1$** | Frequency of the modal class                                    |
-| **$f_0$** | Frequency of the class _preceding_ the modal class              |
-| **$f_2$** | Frequency of the class _succeeding_ (following) the modal class |
-| **$h$**   | Class size (width) of the modal class                           |
-
-**C. The Empirical Formula**
-If a distribution is moderately skewed, the Mode can be approximated using the Mean and Median:
-$$\text{Mode} = 3 \text{ Median} - 2 \text{ Mean}$$
+**The Formula in Plain English:**
+(Updated Belief) = [ (Chance of clue if true) × (Initial Belief) ] ÷ (Total chance of the clue)
 
 ## 5. Step-by-Step Method
 
-**Algorithm for Grouped Data Mode (Board/Exam Procedure):**
+How to solve ANY Bayes Theorem question in exams:
 
-1. **Locate Modal Class:** Look at the frequency column. Find the highest frequency number. The class interval corresponding to this highest frequency is your Modal Class.
-2. **Extract Variables:** From the table, identify:
-   - $L$: Lower limit of that modal class.
-   - $f_1$: The highest frequency itself.
-   - $f_0$: The frequency of the row immediately _above_ the modal class.
-   - $f_2$: The frequency of the row immediately _below_ the modal class.
-   - $h$: The width of the modal class (Upper Limit - Lower Limit).
-3. **Verify Continuity:** Ensure class intervals are continuous (e.g., 0-10, 10-20). If they are discontinuous (e.g., 1-10, 11-20), adjust boundaries by 0.5 before finding $L$.
-4. **Apply Formula:** Substitute $L, f_1, f_0, f_2$, and $h$ into the formula. Follow BODMAS rules carefully to solve.
+1.  **Identify the "Clue" (Event B):** What is the event that has _already happened_?
+2.  **Identify the "Causes" (Events A1, A2):** What are the possible reasons for the clue?
+3.  **Write down the Priors:** Find P(A1) and P(A2). (These must add up to 1).
+4.  **Write down the Likelihoods:** Find P(B|A1) and P(B|A2). (Chance of the clue for each cause).
+5.  **Calculate the Total Evidence (Denominator):** Multiply each Prior by its Likelihood, and add them all together: `Total P(B) = [P(A1) × P(B|A1)] + [P(A2) × P(B|A2)]`.
+6.  **Apply the Formula:** Divide the specific path you want by the Total Evidence from Step 5.
 
 ## 6. Visual Understanding
 
-**Diagram 1: Data Flow for Finding the Mode**
+**Diagram 1: The Logical Flow of Bayes Theorem**
 
 ```text
-    Dataset Values
- [2, 5, 2, 7, 2, 8, 5]
+[Old Guess about the World]  --- (Prior)
           ↓
-  Count Frequencies
-   2: ||| (3 times)
-   5: ||  (2 times)
-   7: |   (1 time)
-   8: |   (1 time)
+[See a New Clue/Evidence]    --- (Likelihood)
           ↓
- Find Highest Frequency
-      (3 times)
+[Mix Old Guess + Clue]       --- (Total Evidence Math)
           ↓
-        Mode
-          2
+[New, Smarter Guess!]        --- (Posterior)
 ```
 
-**Diagram 2: Visualizing the Modal Class (Histogram Concept)**
+**Diagram 2: The Tree Diagram Approach (Best for Exams)**
 
 ```text
-Freq
- |          [ f1 ]  <-- Highest Bar (Modal Class)
- |          |    |
- |  [ f0 ]  |    |  [ f2 ]
- |  |    |  |    |  |    |
- |__|____|__|____|__|____|____ Classes
-   0-10    10-20   20-30
-             ^
-             L (Lower limit of modal class)
+                    Start Here
+                   /          \
+      (Prior 1)   /            \   (Prior 2)
+           P(Cause 1)        P(Cause 2)
+             /                   \
+            /                     \
+       Cause 1                  Cause 2
+       /     \                  /     \
+      /       \                /       \
+  P(Clue)   P(No Clue)     P(Clue)   P(No Clue)
+   /             \          /             \
+Clue           No Clue    Clue          No Clue
 
-The formula effectively shifts the Mode from the center of the modal class
-towards the neighboring class that has a higher frequency (comparing f0 and f2).
+Rule: To find the final answer, multiply the numbers along the path
+leading to your target, and divide by the sum of ALL paths ending in a Clue!
 ```
 
 ## 7. Solved Examples
 
 ### Example 1 — Basic
 
-**Problem:** Find the mode of the following data: 12, 14, 16, 12, 14, 14, 16, 14, 10, 14, 18, 14.
-**Solution steps:**
+**Problem:**
+You have two bags. Bag 1 has 3 Red balls and 2 Blue balls. Bag 2 has 1 Red ball and 4 Blue balls. You blindly pick a bag, and then blindly pull out a ball. **The ball is Red.** What is the chance that you picked Bag 1?
 
-1. Create a frequency tally.
-   - 10 occurs 1 time
-   - 12 occurs 2 times
-   - 14 occurs 6 times
-   - 16 occurs 2 times
-   - 18 occurs 1 time
-2. Identify the observation with the maximum frequency.
-   The value 14 occurs a maximum of 6 times.
-   **Final answer:** 14
+**Step-by-Step Solution:**
+
+1. **The Clue (Event B):** The ball is Red.
+2. **The Causes:** It came from Bag 1 (A1) or Bag 2 (A2).
+3. **Priors:** Since you blindly pick a bag, chance of Bag 1 is 50%, Bag 2 is 50%. P(A1) = 1/2, P(A2) = 1/2.
+4. **Likelihoods:** Chance of Red if Bag 1 = 3/5. Chance of Red if Bag 2 = 1/5.
+5. **Total Evidence (Denominator):** Total P(Red) = (1/2 × 3/5) + (1/2 × 1/5) = 3/10 + 1/10 = 4/10.
+6. **Apply Formula:** We want the chance of Bag 1 given it's Red.
+   P(A1 | Red) = (Path for Bag 1) / (Total Red) = (3/10) / (4/10) = 3/4.
+
+**Final Answer:** There is a 3/4 (or 75%) chance the Red ball came from Bag 1.
 
 ### Example 2 — Moderate
 
-**Problem:** Calculate the mode for the following frequency distribution:
+**Problem:**
+A factory has two machines. Machine A makes 60% of all toys. Machine B makes 40% of all toys. 5% of Machine A's toys are broken. 10% of Machine B's toys are broken. A customer buys a toy and finds it is **broken**. What is the probability Machine B made it?
 
-| Marks    | 0-20 | 20-40 | 40-60 | 60-80 | 80-100 |
-| :------- | :--- | :---- | :---- | :---- | :----- |
-| Students | 10   | 35    | 52    | 20    | 15     |
+**Step-by-Step Solution:**
 
-**Solution steps:**
+1. **The Clue:** The toy is broken.
+2. **The Causes:** Machine A or Machine B.
+3. **Priors:** P(A) = 0.60, P(B) = 0.40.
+4. **Likelihoods:** P(Broken|A) = 0.05, P(Broken|B) = 0.10.
+5. **Total Evidence:** Total P(Broken) = (0.60 × 0.05) + (0.40 × 0.10) = 0.03 + 0.04 = 0.07.
+6. **Apply Formula:** P(B | Broken) = (Path for B) / (Total Broken) = 0.04 / 0.07 = 4/7.
 
-1. Look at the frequency row to find the maximum value.
-   The maximum frequency is 52.
-2. The class corresponding to 52 is 40-60. This is the **Modal Class**.
-3. Extract variables for the formula:
-   $L = 40$ (lower limit of 40-60)
-   $f_1 = 52$ (frequency of modal class)
-   $f_0 = 35$ (frequency of class preceding, 20-40)
-   $f_2 = 20$ (frequency of class succeeding, 60-80)
-   $h = 20$ (class size: $60 - 40$)
-4. Apply the formula:
-   $\text{Mode} = L + \left[ \frac{f_1 - f_0}{2f_1 - f_0 - f_2} \right] \times h$
-   $\text{Mode} = 40 + \left[ \frac{52 - 35}{2(52) - 35 - 20} \right] \times 20$
-   $\text{Mode} = 40 + \left[ \frac{17}{104 - 55} \right] \times 20$
-   $\text{Mode} = 40 + \left[ \frac{17}{49} \right] \times 20$
-   $\text{Mode} = 40 + \frac{340}{49} \approx 40 + 6.94$
-   **Final answer:** 46.94
+**Final Answer:** The probability Machine B made the broken toy is 4/7 (about 57%).
 
 ### Example 3 — Advanced
 
-**Problem:** The mode of the following data is 36. Find the missing frequency $x$.
+**Problem:**
+A rare disease affects 1 in 1,000 people (0.1%). A medical test for this disease is 99% accurate (Positive 99% of the time if sick, Negative 99% of the time if healthy). You take the test and get a **positive** result. What is the actual chance you have the disease?
 
-| Class | 0-10 | 10-20 | 20-30 | 30-40 | 40-50 | 50-60 | 60-70 |
-| :---- | :--- | :---- | :---- | :---- | :---- | :---- | :---- |
-| Freq  | 8    | 10    | $x$   | 16    | 12    | 6     | 7     |
+**Step-by-Step Solution:**
 
-**Solution steps:**
+1. **The Clue:** A positive test (+).
+2. **The Causes:** You are Sick (S) or Healthy (H).
+3. **Priors:** P(Sick) = 0.001, P(Healthy) = 0.999.
+4. **Likelihoods:** P(+|Sick) = 0.99. P(+|Healthy) = 0.01 (This is the false alarm rate!).
+5. **Total Evidence:** Total P(+) = (0.001 × 0.99) + (0.999 × 0.01) = 0.00099 + 0.00999 = 0.01098.
+6. **Apply Formula:** P(Sick | +) = 0.00099 / 0.01098 ≈ 0.09.
 
-1. We are given $\text{Mode} = 36$.
-2. Since 36 lies in the class interval 30-40, the **Modal Class** must be 30-40.
-3. Extract variables based on the modal class 30-40:
-   $L = 30$
-   $f_1 = 16$
-   $f_0 = x$ (frequency of preceding class 20-30)
-   $f_2 = 12$ (frequency of succeeding class 40-50)
-   $h = 10$
-4. Use the mode formula:
-   $36 = 30 + \left[ \frac{16 - x}{2(16) - x - 12} \right] \times 10$
-   $6 = \left[ \frac{16 - x}{32 - x - 12} \right] \times 10$
-   $6 = \frac{(16 - x) \times 10}{20 - x}$
-5. Cross-multiply:
-   $6(20 - x) = 160 - 10x$
-   $120 - 6x = 160 - 10x$
-   $10x - 6x = 160 - 120$
-   $4x = 40 \Rightarrow x = 10$
-   **Final answer:** 10
+**Final Answer:** Shockingly, even with a 99% accurate test, you only have a **9% chance** of actually being sick!
 
 ## 8. Interpretation in Data Science
 
-In modern data analytics and machine learning, the mode plays several unique roles that the mean and median cannot fill:
+In Data Science, Bayes Theorem is used to train computers to guess things automatically. We call this **Naive Bayes Classification**.
 
-- **Handling Categorical Data:** Machine learning models often receive categorical features (e.g., `City: [Delhi, Mumbai, Delhi, Chennai]`). The mean and median mathematically cannot process strings. The mode is the _only_ central tendency measure that works natively with categorical variables.
-- **Preprocessing and Feature Engineering (Mode Imputation):** When datasets have missing values (NaNs) in categorical columns (like "Gender" or "Subscription Tier"), data scientists use **Mode Imputation**. They replace missing values with the most frequently occurring category to maintain data integrity without breaking the pipeline.
-- **Dashboards:** In marketing and sales dashboards, the mode is framed as "Top Selling Product," "Most Active User Age Group," or "Peak Traffic Hour."
-- **Insensitivity to Outliers:** The mode is absolutely immune to extreme outliers. If a dataset `[2, 3, 3, 3, 5]` suddenly changes to `[2, 3, 3, 3, 500000]`, the mode strictly remains 3.
+Imagine an AI trying to read a movie review and decide if it is "Happy" or "Angry". The AI looks at historical data (Priors) and sees that 50% of reviews are Happy. Then, it sees the word "terrible" in a new review (This is the Clue). The AI calculates: _What is the probability this review is Angry, given that it contains the word "terrible"?_ Bayes Theorem gives the AI the exact mathematical percentage to make the classification decision.
 
 ## 9. Comparison With Other Measures
 
-| Feature                     | Mean                 | Median                      | Mode                                           |
-| :-------------------------- | :------------------- | :-------------------------- | :--------------------------------------------- |
-| **Mathematical Definition** | Sum divided by count | The middle positional value | Most frequently occurring value                |
-| **Data Types**              | Continuous, Interval | Continuous, Ordinal         | **Categorical (Nominal)**, Ordinal, Continuous |
-| **Outlier Sensitivity**     | Extremely High       | Zero (Robust)               | **Zero (Robust)**                              |
-| **Existence**               | Always exactly one   | Always exactly one          | **Can be None, One, or Multiple (Bimodal)**    |
-| **Uses all data points?**   | Yes                  | No                          | No                                             |
+- **Normal Probability:** "What is the chance I roll a 6 on a dice?" (Focuses on a single future event).
+- **Conditional Probability:** "What is the chance I roll a 6, _given_ that the number rolled is even?" (Focuses on a restricted future).
+- **Bayes Theorem:** "The number rolled _was_ a 6. What is the chance the dice is secretly weighted?" (Focuses on finding the hidden cause of an event that already happened).
 
 ## 10. Exam Strategy Box
 
-> 💡 Exam Tip: Always check if the frequency distribution is continuous. If classes are given as 11-20, 21-30, you must convert them to 10.5-20.5, 20.5-30.5 before finding $L$, otherwise your answer will be slightly off.
-> 💡 Exam Tip: Be careful identifying $f_0, f_1, f_2$. Think of them in order: 0 comes before 1, and 2 comes after 1. So $f_1$ is the main modal class, $f_0$ is before it, $f_2$ is after it.
-> 💡 Exam Tip: Sometimes the highest frequency might occur in the very first or very last class interval. If it's the first class, $f_0 = 0$. If it's the last class, $f_2 = 0$.
-> 💡 Exam Tip: The Mode formula evaluates a ratio, meaning the final answer must ALWAYS lie strictly _between_ the lower limit ($L$) and upper limit of your modal class. If your answer falls outside this range, your calculation is mathematically wrong.
-> 💡 Exam Tip: If a 1-mark question asks for the Mode given the Mean and Median, immediately jump to the empirical formula: $\text{Mode} = 3\text{Median} - 2\text{Mean}$.
+- **Look for the "Given":** Exam questions use words like "Given that", "It is known that", or "Found to be". This explicitly tells you what the Clue (Event B) is.
+- **Tree Diagrams are Magic:** Do not try to memorize the formula perfectly. Just draw a tree diagram! The answer is always: `(One specific branch) divided by (Sum of all branches that end in your clue)`.
+- **Check your Priors:** Make sure your initial probabilities (Causes) always add up exactly to 1 (e.g., 60% Machine A + 40% Machine B = 1.0).
 
 ## 11. Common Student Errors
 
-> ⚠️ Common Error: Adding up all the frequencies (finding $\sum f_i$) and trying to use $N/2$ like in the Median. The Mode does not require cumulative frequency or the total sum $N$.
-> ⚠️ Common Error: Misidentifying the Modal Class. Always look for the highest number in the _Frequency_ column, not the Class Interval column.
-> ⚠️ Common Error: Writing down the highest frequency ($f_1$) as the final answer instead of putting it into the formula.
-> ⚠️ Common Error: Messing up the denominator $2f_1 - f_0 - f_2$. Students often subtract $f_0$ but forget to subtract $f_2$, or they multiply $f_1$ incorrectly.
-> ⚠️ Common Error: Stating that a dataset with no repeating numbers has a "Mode of 0". If no number repeats, there is **No Mode**. A mode of 0 would mean the number '0' appears the most times.
+1.  **Mixing up the Letters:** Students often confuse P(A|B) with P(B|A).
+    - _P(Positive Test | Disease)_ is usually very high (e.g., 99%).
+    - _P(Disease | Positive Test)_ can be very low (e.g., 9%). They are NOT the same!
+2.  **Forgetting the Denominator:** Students multiply the Prior and Likelihood, but forget to divide by the Total Evidence (the sum of all possibilities).
+3.  **Ignoring the Base Rate:** Assuming that if a test is 99% accurate, a positive result means a 99% chance of being sick. You must factor in how rare the disease is (The Prior). This is known as the Base Rate Fallacy.
 
 ## 12. Practice Exercises (NCERT + Competitive Exam Style)
 
-### Section A: Very Short Answer (1-2 marks)
+### Section A: Very Short Answer (5)
 
-1. Find the mode of the data: 5, 7, 9, 5, 8, 7, 5, 9, 10, 5.
-2. In a continuous frequency distribution, the modal class is 40-50, its frequency is 20, frequency of preceding class is 12 and succeeding class is 11. Find the mode.
-3. If the median of a dataset is 15.6 and the mean is 15.2, what is its approximate mode using the empirical relationship?
-4. What is the mode of a dataset where every observation occurs exactly once?
-5. Find the mode of the first 10 prime numbers.
+1. Write the word equation for Bayes Theorem using Prior, Likelihood, and Total Evidence.
+2. In Bayes Theorem, what do we call the probability of an event _before_ we see any new evidence?
+3. If the Total Evidence P(B) is 0.5, and the top of the fraction [P(B|A) × P(A)] is 0.2, what is the final answer P(A|B)?
+4. True or False: A Tree Diagram helps find the denominator for Bayes Theorem.
+5. What is the difference between an "Effect" (Clue) and a "Cause" in a Bayes problem?
 
-### Section B: Short Answer (2-3 marks)
+### Section B: Short Answer (5)
 
-6. A shoe shop sold pairs of shoes of the following sizes in a day: 6, 7, 8, 9, 6, 7, 8, 7, 6, 9, 7, 8, 7, 7. What is the modal shoe size? Why is mode useful here instead of mean?
-7. Calculate the mode of the following data:
-   $x_i$: 10, 20, 30, 40, 50
-   $f_i$: 4, 8, 12, 10, 5
-8. Find the mode of the following distribution:
-   Marks: 0-10, 10-20, 20-30, 30-40, 40-50
-   Students: 5, 12, 20, 11, 4
-9. Convert the following discontinuous data into continuous classes and find the modal class and its lower limit ($L$):
-   Class: 1-5, 6-10, 11-15, 16-20
-   Freq: 3, 8, 15, 6
-10. Can a distribution have more than one mode? Give a real-life example where this might happen.
+6. A weather app says there is a 30% chance of rain today. Is this a Prior, Likelihood, or Posterior probability?
+7. Box X has 4 apples and 2 oranges. Box Y has 1 apple and 5 oranges. If you randomly pick a box, what is the Prior probability of picking Box X?
+8. Using the boxes from Q7, what is the Likelihood of pulling an apple _if_ you are holding Box X? P(Apple | Box X)?
+9. Why is Bayes Theorem useful in medical testing?
+10. Define "Total Evidence" in your own words.
 
-### Section C: Exam Level Problems (4-5 marks)
+### Section C: Exam Level Problems (5)
 
-11. Compute the mode for the following frequency distribution:
-    Class: 0-20, 20-40, 40-60, 60-80, 80-100, 100-120
-    Frequency: 10, 35, 52, 61, 38, 29
-12. Given that the mode of the distribution below is 34.5, find the missing frequency $y$.
-    Class: 0-10, 10-20, 20-30, 30-40, 40-50
-    Freq: 4, 8, 10, $y$, 8
-13. The following data gives the distribution of total monthly household expenditure of 200 families. Find the modal monthly expenditure.
-    Expenditure (₹): 1000-1500, 1500-2000, 2000-2500, 2500-3000, 3000-3500, 3500-4000, 4000-4500, 4500-5000
-    Families: 24, 40, 33, 28, 30, 22, 16, 7
-14. The mode of a grouped frequency distribution is 75 and the modal class is 65-80. The frequency of the class preceding the modal class is 6 and the frequency of the class succeeding the modal class is 8. Find the frequency of the modal class.
-15. Calculate the mean, median, and mode for the following data using standard formulas, and verify if the empirical relation $\text{Mode} \approx 3\text{Median} - 2\text{Mean}$ holds true.
-    Class: 0-10, 10-20, 20-30, 30-40, 40-50
-    Frequency: 3, 4, 7, 4, 2
+11. In a class, 70% of students study Math and 30% study Art. 10% of Math students have a laptop. 50% of Art students have a laptop. A student is randomly chosen and **has a laptop**. What is the probability they study Art?
+12. Three cooks, A, B, and C, bake 40%, 30%, and 30% of the cakes in a bakery. Cook A burns 5% of their cakes, Cook B burns 2%, and Cook C burns 1%. A customer buys a cake and it is **burned**. What is the probability Cook A baked it?
+13. A lie detector is 80% accurate (identifies lies 80% of the time, and truth 80% of the time). In a company, 5% of employees steal. An employee takes the test and it says they are **lying**. What is the real chance they stole?
+14. A coin is either fair (50/50) or double-headed (100% heads). You have a bag with 9 fair coins and 1 double-headed coin. You pull one coin out, flip it, and get **Heads**. What is the chance you pulled the double-headed coin?
+15. Company X makes 80% of phone screens, Company Y makes 20%. Company X screens crack 1% of the time. Company Y screens crack 5% of the time. Your screen just **cracked**. Who likely made it? Calculate the probability for Company Y.
 
-### Section D: Conceptual Reasoning (For Data Science & Advanced Competitions)
+### Section D: Conceptual Reasoning (5)
 
-16. Why is Mode Imputation preferred over Mean Imputation when handling missing values in a "Car Brand" column of a dataset?
-17. A clothing retailer is looking at last year's sales. The Mean shirt size sold was Medium-Large, the Median was Large, but the Mode was Small. Which metric should dictate their manufacturing order for the next year? Why?
-18. If every value in a dataset is multiplied by a constant $k$, what happens to the mode? Prove it conceptually.
-19. What happens to the Mode grouped data formula if the maximum frequency is shared by two adjacent classes (e.g., $f_1 = f_0 = 20$)?
-20. Why do data scientists plot a histogram or Kernel Density Estimate (KDE) plot to visually inspect for "bimodal" distributions before applying standard linear regression?
+16. Explain the "Wet Grass" example to a friend who doesn't know math.
+17. Why does a 99% accurate medical test still give wrong answers for rare diseases?
+18. If a Clue is totally impossible for a specific Cause (Likelihood = 0), what happens to the final Bayes answer?
+19. How does an email filter use Bayes Theorem to catch spam?
+20. Why must the "Priors" in a Bayes problem always add up to 1?
 
 ## 13. Fully Solved Answers
 
 ### Section A
 
-**1. Solution:**
-Frequencies: 5 (four times), 7 (two times), 9 (two times), 8, 10 (one time each). Highest frequency is 4, for the value 5.
-**Final Answer:** 5.
-
-**2. Solution:**
-$L = 40$, $f_1 = 20$, $f_0 = 12$, $f_2 = 11$, $h = 10$.
-Mode = $40 + \left[ \frac{20 - 12}{2(20) - 12 - 11} \right] \times 10 = 40 + \left[ \frac{8}{40 - 23} \right] \times 10 = 40 + \left[ \frac{8}{17} \right] \times 10 = 40 + 4.71 = 44.71$.
-**Final Answer:** 44.71.
-
-**3. Solution:**
-$\text{Mode} = 3\text{Median} - 2\text{Mean} = 3(15.6) - 2(15.2) = 46.8 - 30.4 = 16.4$.
-**Final Answer:** 16.4.
-
-**4. Solution:**
-If every observation occurs exactly once, there is no value that appears more frequently than the others.
-**Final Answer:** No Mode.
-
-**5. Solution:**
-First 10 primes: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29. No number repeats.
-**Final Answer:** No Mode.
+1. Posterior = (Likelihood × Prior) / Total Evidence.
+2. The Prior Probability.
+3. P(A|B) = 0.2 / 0.5 = 0.4 (or 40%).
+4. True. Adding the endpoints of the tree gives the total denominator.
+5. The Cause is the hidden truth (e.g., Disease). The Effect/Clue is what we can easily see (e.g., Positive Test).
 
 ### Section B
 
-**6. Solution:**
-Frequencies: 6 (three times), 7 (six times), 8 (three times), 9 (two times). Maximum frequency is 6 for size 7. The mode is useful because a retailer must stock the exact sizes customers buy. You cannot stock an "average" shoe size if it's a fraction.
-**Final Answer:** 7.
-
-**7. Solution:**
-
-| $x_i$ | $f_i$  |
-| :---- | :----- |
-| 10    | 4      |
-| 20    | 8      |
-| 30    | **12** |
-| 40    | 10     |
-| 50    | 5      |
-
-Highest frequency is 12, corresponding to $x_i = 30$.
-**Final Answer:** 30.
-
-**8. Solution:**
-
-| Marks     | Students ($f_i$) |
-| :-------- | :--------------- |
-| 0-10      | 5                |
-| 10-20     | 12               |
-| **20-30** | **20**           |
-| 30-40     | 11               |
-| 40-50     | 4                |
-
-Modal class = 20-30. $L=20, f_1=20, f_0=12, f_2=11, h=10$.
-Mode = $20 + \left[ \frac{20 - 12}{40 - 12 - 11} \right] \times 10 = 20 + \left[ \frac{8}{17} \right] \times 10 = 20 + 4.7 = 24.7$.
-**Final Answer:** 24.7.
-
-**9. Solution:**
-Convert to continuous boundaries by subtracting 0.5 from lower limit and adding 0.5 to upper limit.
-
-| Cont. Class     | Freq   |
-| :-------------- | :----- |
-| 0.5 - 5.5       | 3      |
-| 5.5 - 10.5      | 8      |
-| **10.5 - 15.5** | **15** |
-| 15.5 - 20.5     | 6      |
-
-Modal class is 10.5 - 15.5.
-**Final Answer:** Modal class is 10.5 - 15.5, $L = 10.5$.
-
-**10. Solution:**
-Yes, a distribution can be bimodal or multimodal. A real-life example: The sizes of shoes sold in a store that caters equally to both adult men and adult women. You would likely see a high peak around size 7 (women) and another high peak around size 10 (men).
-**Final Answer:** Yes (e.g., Bimodal distribution).
+6. Prior probability (it is the initial baseline belief before looking outside).
+7. Prior P(Box X) = 1/2 (since there are 2 boxes and you pick randomly).
+8. P(Apple | Box X) = 4/6 = 2/3.
+9. Because medical tests are just "clues". Bayes Theorem tells the doctor the actual probability a patient is sick, rather than just trusting the test blindly and making a false diagnosis.
+10. It is the overall chance of seeing the Clue, considering all possible causes combined together into a single sum.
 
 ### Section C
 
-**11. Solution:**
-
-| Class     | Frequency |
-| :-------- | :-------- |
-| 0-20      | 10        |
-| 20-40     | 35        |
-| 40-60     | 52        |
-| **60-80** | **61**    |
-| 80-100    | 38        |
-| 100-120   | 29        |
-
-Modal Class = 60-80. $L=60, f_1=61, f_0=52, f_2=38, h=20$.
-Mode = $60 + \left[ \frac{61 - 52}{2(61) - 52 - 38} \right] \times 20 = 60 + \left[ \frac{9}{122 - 90} \right] \times 20$
-Mode = $60 + \left[ \frac{9}{32} \right] \times 20 = 60 + \frac{180}{32} = 60 + 5.625 = 65.625$.
-**Final Answer:** 65.625.
-
-**12. Solution:**
-Given Mode = 34.5. This value falls in the class 30-40.
-Therefore, Modal Class = 30-40.
-$L=30, f_1=y, f_0=10, f_2=8, h=10$.
-$34.5 = 30 + \left[ \frac{y - 10}{2y - 10 - 8} \right] \times 10$
-$4.5 = \left[ \frac{y - 10}{2y - 18} \right] \times 10 \Rightarrow 4.5 = \frac{10y - 100}{2y - 18}$
-$4.5(2y - 18) = 10y - 100 \Rightarrow 9y - 81 = 10y - 100$
-$100 - 81 = 10y - 9y \Rightarrow y = 19$.
-**Final Answer:** $y = 19$.
-
-**13. Solution:**
-
-| Expenditure   | Families |
-| :------------ | :------- |
-| 1000-1500     | 24       |
-| **1500-2000** | **40**   |
-| 2000-2500     | 33       |
-| 2500-3000     | 28       |
-| ...           | ...      |
-
-Max frequency is 40. Modal class is 1500-2000.
-$L=1500, f_1=40, f_0=24, f_2=33, h=500$.
-Mode = $1500 + \left[ \frac{40 - 24}{80 - 24 - 33} \right] \times 500 = 1500 + \left[ \frac{16}{80 - 57} \right] \times 500 = 1500 + \left[ \frac{16}{23} \right] \times 500$
-Mode = $1500 + \frac{8000}{23} \approx 1500 + 347.83 = 1847.83$.
-**Final Answer:** ₹ 1847.83.
-
-**14. Solution:**
-Given: Mode = 75, Modal class = 65-80, $f_0 = 6, f_2 = 8, L = 65, h = 15$. Find $f_1$.
-$75 = 65 + \left[ \frac{f_1 - 6}{2f_1 - 6 - 8} \right] \times 15$
-$10 = \left[ \frac{f_1 - 6}{2f_1 - 14} \right] \times 15$
-$\frac{10}{15} = \frac{f_1 - 6}{2f_1 - 14} \Rightarrow \frac{2}{3} = \frac{f_1 - 6}{2f_1 - 14}$
-$2(2f_1 - 14) = 3(f_1 - 6) \Rightarrow 4f_1 - 28 = 3f_1 - 18$
-$4f_1 - 3f_1 = 28 - 18 \Rightarrow f_1 = 10$.
-**Final Answer:** 10.
-
-**15. Solution:**
-
-| Class     | $f_i$  | $x_i$ | $f_ix_i$ | $cf$ |
-| :-------- | :----- | :---- | :------- | :--- |
-| 0-10      | 3      | 5     | 15       | 3    |
-| 10-20     | 4      | 15    | 60       | 7    |
-| **20-30** | **7**  | 25    | 175      | 14   |
-| 30-40     | 4      | 35    | 140      | 18   |
-| 40-50     | 2      | 45    | 90       | 20   |
-| **Sum**   | $N=20$ |       | 480      |      |
-
-**Mean:** $\bar{x} = 480 / 20 = 24$.
-**Median:** $N/2 = 10$. Median class is 20-30. $L=20, cf=7, f=7, h=10$.
-Median = $20 + [\frac{10 - 7}{7}] \times 10 = 20 + \frac{30}{7} = 20 + 4.28 = 24.28$.
-**Mode:** Modal class is 20-30. $L=20, f_1=7, f_0=4, f_2=4, h=10$.
-Mode = $20 + [\frac{7 - 4}{14 - 4 - 4}] \times 10 = 20 + [\frac{3}{6}] \times 10 = 20 + 5 = 25$.
-**Verification:** $3\text{Median} - 2\text{Mean} = 3(24.28) - 2(24) = 72.84 - 48 = 24.84$.
-Mode (25) $\approx$ Empirical Mode (24.84). The relation holds closely.
-**Final Answer:** Mean=24, Median=24.28, Mode=25. Verified.
+11. Clue = Laptop. Total Laptop = (0.70 × 0.10) + (0.30 × 0.50) = 0.07 + 0.15 = 0.22. P(Art | Laptop) = 0.15 / 0.22 = 15/22.
+12. Clue = Burned. Total Burned = (0.40×0.05) + (0.30×0.02) + (0.30×0.01) = 0.020 + 0.006 + 0.003 = 0.029. P(Cook A | Burned) = 0.020 / 0.029 = 20/29.
+13. Clue = Test says Lie. P(Steal)=0.05, P(Honest)=0.95. Total says Lie = (0.05×0.80) + (0.95×0.20) = 0.04 + 0.19 = 0.23. P(Steal | Says Lie) = 0.04 / 0.23 = 4/23 (about 17.4%).
+14. Clue = Heads. P(Fair)=9/10, P(Trick)=1/10. Total Heads = (9/10 × 1/2) + (1/10 × 1) = 9/20 + 2/20 = 11/20. P(Trick | Heads) = (2/20) / (11/20) = 2/11.
+15. Clue = Cracked. Total Cracked = (0.80×0.01) + (0.20×0.05) = 0.008 + 0.010 = 0.018. P(Company Y | Cracked) = 0.010 / 0.018 = 10/18 = 5/9.
 
 ### Section D
 
-**16. Solution:** "Car Brand" is a categorical variable (e.g., Toyota, Honda, Ford). The mathematical mean of strings does not exist. The mode represents the most frequently occurring brand in the dataset, making it the only logical choice to fill in missing string/categorical data cleanly.
-**17. Solution:** They should use the **Mode** (Small). In manufacturing retail, you must produce what people actually buy most often. The mean and median might be skewed by a few extremely large sizes, but if the vast majority of sales transactions are for 'Small' shirts, producing 'Large' shirts will result in unsold inventory.
-**18. Solution:** The mode is also multiplied by $k$. If the value '5' appeared the most times in the dataset, and every number is multiplied by 3, the number '15' will now appear the exact same most number of times.
-**19. Solution:** If $f_1 = f_0$, the numerator $(f_1 - f_0)$ becomes 0. The formula mathematically results in $\text{Mode} = L + 0 = L$. This physically means the mode sits exactly at the lower boundary separating the two equally high class intervals.
-**20. Solution:** Linear regression models and standard metrics often assume data is "normally distributed" (a single bell curve). If data is bimodal (two peaks, like height of mixed men and women), the mean falls right in the empty middle, representing nobody. Data scientists split bimodal datasets into two separate groups before modeling.
+16. If the grass is wet, it could be rain or a sprinkler. Since we live in a desert, rain is rare, so our brain automatically guesses the sprinkler. Bayes theorem is just doing the math for this exact logic!
+17. Because if the disease is 1 in a million, the 1% of false alarms from healthy people will add up to thousands of people, drowning out the 1 real sick person. This is the Base Rate Fallacy.
+18. The final answer becomes 0. If a cause cannot possibly produce the clue, then seeing the clue mathematically proves that cause is impossible.
+19. It looks at the words (clues). If it sees "Free Money", it checks historical data. Since "Free Money" appears 90% of the time in spam and 1% in real email, the math updates the probability and throws it in the spam folder.
+20. Because they represent all possible states of the world. Something has to be the cause, so the sum of all chances must equal 100% (or exactly 1).
 
 ## 14. Real Dataset Example
 
-**Dataset Context: User Ratings on a Shopping App**
-Let's analyze the 5-star ratings for a newly released mobile phone case.
-Ratings data: `[1, 5, 5, 5, 4, 5, 1, 5, 5, 3]`
+**Case Study: Catching Fraud in Banking Transactions**
 
-**Calculations:**
+**The Scenario:** A bank processes 100,000 credit card transactions a day.
 
-- Mean Rating = (1+5+5+5+4+5+1+5+5+3) / 10 = **3.9 stars**
-- Mode Rating = **5 stars** (appears 6 times out of 10)
+- **The Baseline (Prior):** Only 1% of all transactions are actually fraudulent hackers stealing money. (P(Fraud) = 0.01).
+- **The Clue (Evidence):** The bank's system checks if a transaction happens in a "Foreign Country".
+- **The Likelihoods:**
+  - If a transaction is a Fraud, there is an 80% chance it is from a Foreign Country. (Hackers usually operate overseas).
+  - If a transaction is Normal, there is only a 5% chance it is from a Foreign Country. (Normal people go on vacation sometimes).
 
-**Interpretation:**
-If a user just looks at the Mean (3.9 stars), they might think the product is mediocre or average. However, the Mode (5 stars) tells a very different story: the vast majority of people absolutely loved the product. The mean was dragged down by just two angry users who left 1-star reviews. For categorical or ordinal data (like 1 to 5 star ratings), dashboards often display the Mode ("Most users rated this 5 stars!") alongside the mean to provide a complete picture of customer sentiment.
+**The Question:** You are the Data Scientist. The system flags a transaction because it is from a Foreign Country. What is the actual mathematical chance it is a Hacker?
+
+**The Bayes Solution:**
+
+1. Total chance of a Foreign transaction = (Fraud × 80%) + (Normal × 5%)
+2. Total = (0.01 × 0.80) + (0.99 × 0.05) = 0.008 + 0.0495 = 0.0575.
+3. Final Bayes Answer = (Fraud Path) / (Total) = 0.008 / 0.0575 ≈ **13.9%**.
+
+**Business Conclusion:** Even though the transaction is from a foreign country, there is only a 13.9% chance it is actually fraud! The bank should NOT freeze the customer's card immediately, but perhaps send them an SMS text message to confirm. This exact logic runs inside banking dashboards every millisecond.
 
 ## 15. Quick Revision Sheet
 
-- **Definition:** The value that occurs with the maximum frequency.
-- **Best Used For:** Categorical data, nominal data, finding popular items, determining inventory.
-- **Formula (Grouped):** $L + \left[ \frac{f_1 - f_0}{2f_1 - f_0 - f_2} \right] \times h$
-- **Empirical Formula:** $\text{Mode} = 3\text{Median} - 2\text{Mean}$
-- **Key Property 1:** Can be calculated for open-ended class intervals.
-- **Key Property 2:** Completely unaffected by extreme outliers.
-- **Data Science Use:** Mode imputation for replacing missing categorical/string values in data preprocessing pipelines.
+**Formula Cheat Sheet:**
+
+- **The Core Formula:** `P(Cause | Clue) = [ P(Clue | Cause) × P(Cause) ] / Total P(Clue)`
+- **The Denominator (Total P(Clue)):** `[P(Clue|Cause 1) × P(Cause 1)] + [P(Clue|Cause 2) × P(Cause 2)]`
+
+**The 3 Golden Steps:**
+
+1.  **Draw a Tree:** Branches are Causes, leaves are Clues.
+2.  **Find the Total:** Add up all the paths that end in your Clue.
+3.  **Find the Target:** Divide the one path you care about by the Total.
 
 ## 16. Interview & Data Science Questions
 
 ### Beginner
 
-**Q:** Which pandas function in Python would you use to find the mode of a column named 'City'?
-**A:** `df['City'].mode()[0]`. Note that `.mode()` returns a series because there can be multiple modes, so `[0]` extracts the first one.
+- **Q:** What is the difference between Prior and Posterior?
+  - **A:** Prior is the guess _before_ looking at evidence. Posterior is the final mathematical answer _after_ including the evidence.
+- **Q:** Can a Posterior probability be lower than a Prior probability?
+  - **A:** Yes! If the new evidence points _away_ from your belief, the probability goes down.
 
 ### Intermediate
 
-**Q:** You have a dataset of 1 million salaries. It has a massive right skew (most people make 50k, a few make 10 million). Sort the Mean, Median, and Mode in ascending order.
-**A:** Mode < Median < Mean. The mode stays at the absolute peak of the curve (50k). The median is slightly pulled to the right. The mean is pulled aggressively to the right by the multimillionaires.
+- **Q:** What is the "Base Rate Fallacy" in statistics?
+  - **A:** It is a human error where we ignore the "Prior" (Base Rate). For example, ignoring that a disease is extremely rare, and only focusing on a 99% test accuracy.
+- **Q:** How do you calculate the denominator of Bayes theorem if there are 3 possible causes?
+  - **A:** You multiply the Prior and Likelihood for Cause 1, Cause 2, and Cause 3 separately, and add all three results together.
 
 ### Advanced
 
-**Q:** When performing Mode Imputation on a categorical feature in a machine learning pipeline, what is the risk of doing it before performing a Train-Test split?
-**A:** Doing it before the split causes **Data Leakage**. The mode of the entire dataset (including the test set) leaks into the training data. Mode imputation must be calculated _only_ on the training set, and that specific value should be used to impute both train and test sets.
+- **Q:** In Machine Learning, why is it called the "Naive" Bayes classifier?
+  - **A:** Because it makes a "naive" (simple) assumption that multiple clues are completely independent of each other (e.g., assuming the word "Free" and the word "Money" don't influence each other in an email). This simplifies the math drastically.
 
 ## 17. Mini Quiz
 
-**1. The empirical relationship between Mean, Median, and Mode is:**
-A) Mean = 3 Median - 2 Mode
-B) Mode = 3 Median - 2 Mean
-C) Median = 3 Mode - 2 Mean
-D) Mode = 2 Median - 3 Mean
+**1. What does P(A|B) mean in plain English?**
+A. Probability of A happening.
+B. Probability of B happening.
+C. Probability of A happening, given that B already happened.
+D. Probability of A and B happening together.
 
-**2. Which of the following data types can ONLY be analyzed using the Mode?**
-A) Continuous (e.g., Weights)
-B) Interval (e.g., Temperatures)
-C) Nominal/Categorical (e.g., Hair Color)
-D) Ratio (e.g., Distances)
+**2. Which part of Bayes formula represents our "Initial Belief"?**
+A. The Prior
+B. The Posterior
+C. The Likelihood
+D. The Evidence
 
-**3. In the formula for grouped Mode, the term $f_0$ refers to:**
-A) The lowest frequency in the table
-B) The frequency of the modal class
-C) The frequency of the class succeeding the modal class
-D) The frequency of the class preceding the modal class
+**3. If you draw a Tree Diagram for a Bayes problem, how do you find the denominator of the formula?**
+A. Multiply all numbers on the tree.
+B. Add up all the branch endpoints that match your clue.
+C. Pick the highest number.
+D. Subtract the Likelihood from the Prior.
 
-**4. A dataset is bimodal. This means:**
-A) The mode is equal to the mean
-B) The mode is zero
-C) The dataset has two values that share the highest frequency
-D) The dataset has no mode
+**4. A doctor gives you a highly accurate test for a very rare disease. It comes back positive. Why might your actual chance of having the disease still be low?**
+A. Because the doctor made a mistake.
+B. Because of the Base Rate Fallacy (false alarms from healthy people outnumber real sick people).
+C. Because the test is actually not accurate.
+D. Because the Posterior probability is always zero.
 
-**5. If the maximum frequency of a grouped distribution is 25, and both the preceding and succeeding classes have a frequency of 10, where will the Mode lie?**
-A) Closer to the lower limit of the modal class
-B) Closer to the upper limit of the modal class
-C) Exactly in the middle of the modal class
-D) Outside the modal class
+**5. What is the real-world Data Science application of Bayes Theorem mentioned in the lecture?**
+A. Drawing 3D shapes.
+B. Spam filtering and Fraud detection.
+C. Calculating website speeds.
+D. Designing user interfaces.
 
 ## Mini Quiz Answer Key
 
-1. B
-2. C
-3. D
-4. C
-5. C
+1. C
+2. A
+3. B
+4. B
+5. B
