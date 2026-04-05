@@ -1,4 +1,3 @@
-```markdown
 # Lecture 2: Median
 
 ## 1. Why This Concept Matters
@@ -9,11 +8,11 @@ In the real world—whether in economics examining national income, real estate 
 
 ## 2. Understanding the Idea Intuitively
 
-Think of the median as the middle person in a line. 
+Think of the median as the middle person in a line.
 
-If you ask 5 students to stand in order of their heights, from shortest to tallest, the student standing exactly in the 3rd position is the median. Half of the students are shorter than this person, and half are taller. 
+If you ask 5 students to stand in order of their heights, from shortest to tallest, the student standing exactly in the 3rd position is the median. Half of the students are shorter than this person, and half are taller.
 
-It does not matter if the tallest student suddenly grows an extra foot taller; the person in the middle remains exactly the same. The median is a *positional* average. It cares about *where* the data points sit in an ordered list, not about the exact numerical weight of the extremes.
+It does not matter if the tallest student suddenly grows an extra foot taller; the person in the middle remains exactly the same. The median is a _positional_ average. It cares about _where_ the data points sit in an ordered list, not about the exact numerical weight of the extremes.
 
 ## 3. Observing Patterns From Data
 
@@ -37,7 +36,7 @@ What if we have 6 test scores? Let's add an extreme score of `2`:
 Now we have two middle numbers: `12` and `14`. The median is exactly halfway between them.
 Median = (12 + 14) / 2 = `13`.
 
-Notice how the extreme score of `2` barely shifted our central value (from 14 to 13). 
+Notice how the extreme score of `2` barely shifted our central value (from 14 to 13).
 
 ## 4. Rule for Finding the Concept
 
@@ -47,9 +46,9 @@ The mathematical rule depends on the type of data we are given.
 
 Let $n$ be the total number of observations, arranged in ascending or descending order.
 
-| Condition | Formula |
-| :--- | :--- |
-| If $n$ is **Odd** | Median is the value of the $\left(\frac{n+1}{2}\right)^{th}$ term. |
+| Condition          | Formula                                                                                                  |
+| :----------------- | :------------------------------------------------------------------------------------------------------- |
+| If $n$ is **Odd**  | Median is the value of the $\left(\frac{n+1}{2}\right)^{th}$ term.                                       |
 | If $n$ is **Even** | Median is the mean of the $\left(\frac{n}{2}\right)^{th}$ and $\left(\frac{n}{2} + 1\right)^{th}$ terms. |
 
 **B. For Grouped Data (Continuous Frequency Distribution)**
@@ -59,13 +58,13 @@ When data is given in class intervals (e.g., 0-10, 10-20), we cannot see individ
 **Formula:**
 $$\text{Median} = L + \left[ \frac{\frac{N}{2} - cf}{f} \right] \times h$$
 
-| Symbol | Meaning |
-| :--- | :--- |
-| **$L$** | Lower limit of the median class |
-| **$N$** | Total frequency ($\sum f$) |
-| **$cf$** | Cumulative frequency of the class *preceding* the median class |
-| **$f$** | Frequency of the median class |
-| **$h$** | Class size (width) of the median class |
+| Symbol   | Meaning                                                        |
+| :------- | :------------------------------------------------------------- |
+| **$L$**  | Lower limit of the median class                                |
+| **$N$**  | Total frequency ($\sum f$)                                     |
+| **$cf$** | Cumulative frequency of the class _preceding_ the median class |
+| **$f$**  | Frequency of the median class                                  |
+| **$h$**  | Class size (width) of the median class                         |
 
 ## 5. Step-by-Step Method
 
@@ -73,8 +72,8 @@ $$\text{Median} = L + \left[ \frac{\frac{N}{2} - cf}{f} \right] \times h$$
 
 1.  **Create a $cf$ Column:** Add a new column for Cumulative Frequency ($cf$) next to the given frequencies.
 2.  **Find $N/2$:** Sum all frequencies to get $N$. Calculate $\frac{N}{2}$.
-3.  **Locate Median Class:** Look at the $cf$ column. Find the $cf$ value that is *just greater than or equal to* $\frac{N}{2}$. The corresponding class interval is your Median Class.
-4.  **Extract Variables:** From the table, note down $L$, $cf$ (from the row *above* the median class), $f$, and $h$.
+3.  **Locate Median Class:** Look at the $cf$ column. Find the $cf$ value that is _just greater than or equal to_ $\frac{N}{2}$. The corresponding class interval is your Median Class.
+4.  **Extract Variables:** From the table, note down $L$, $cf$ (from the row _above_ the median class), $f$, and $h$.
 5.  **Apply Formula:** Substitute values into the formula and solve carefully, following BODMAS rules.
 
 ## 6. Visual Understanding
@@ -111,17 +110,19 @@ Sort: [1]  [3]  [5]  [7]  [8]  [9]
 -------|--------|-------------
           Total N = 30
           N/2 = 15
-          
-Search cf column for value >= 15. 
-'25' is the first cf >= 15. 
+
+Search cf column for value >= 15.
+'25' is the first cf >= 15.
 Therefore, 20-30 is the median class.
 ```
 
 ## 7. Solved Examples
 
 ### Example 1 — Basic (Ungrouped Data)
+
 **Problem:** Find the median of the following data: 34, 47, 41, 52, 53, 56, 35, 49, 55, 42.
 **Solution steps:**
+
 1. Sort the data in ascending order:
    34, 35, 41, 42, 47, 49, 52, 53, 55, 56
 2. Count the number of observations ($n$). Here, $n = 10$ (which is even).
@@ -129,58 +130,62 @@ Therefore, 20-30 is the median class.
    Median = mean of 5th and 6th terms.
 4. The 5th term is 47, and the 6th term is 49.
    Median = $\frac{47 + 49}{2} = \frac{96}{2} = 48$.
-**Final answer:** 48
+   **Final answer:** 48
 
 ### Example 2 — Moderate (Discrete Frequency Distribution)
+
 **Problem:** Find the median of the following distribution:
 
-| Variable (x) | 10 | 12 | 14 | 16 | 18 | 20 |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| Frequency (f) | 3 | 5 | 6 | 4 | 4 | 3 |
+| Variable (x)  | 10  | 12  | 14  | 16  | 18  | 20  |
+| :------------ | :-- | :-- | :-- | :-- | :-- | :-- |
+| Frequency (f) | 3   | 5   | 6   | 4   | 4   | 3   |
 
 **Solution steps:**
+
 1. Construct the Cumulative Frequency ($cf$) table.
 
-| x | f | cf |
-| :--- | :--- | :--- |
-| 10 | 3 | 3 |
-| 12 | 5 | 8 |
-| 14 | 6 | 14 |
-| 16 | 4 | 18 |
-| 18 | 4 | 22 |
-| 20 | 3 | 25 |
+| x   | f   | cf  |
+| :-- | :-- | :-- |
+| 10  | 3   | 3   |
+| 12  | 5   | 8   |
+| 14  | 6   | 14  |
+| 16  | 4   | 18  |
+| 18  | 4   | 22  |
+| 20  | 3   | 25  |
 
 2. Find $N$ (Total frequency). $N = 25$.
 3. Calculate $N/2 = 25/2 = 12.5$.
 4. Look at the $cf$ column. The cumulative frequency just greater than 12.5 is 14.
 5. The value of $x$ corresponding to $cf = 14$ is 14.
-**Final answer:** 14
+   **Final answer:** 14
 
 ### Example 3 — Advanced (Continuous Grouped Data)
+
 **Problem:** The table below shows the daily expenditure on food of 25 households in a locality. Find the median daily expenditure.
 
 | Daily Expenditure (₹) | 100-150 | 150-200 | 200-250 | 250-300 | 300-350 |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| No. of households (f) | 4 | 5 | 12 | 2 | 2 |
+| :-------------------- | :------ | :------ | :------ | :------ | :------ |
+| No. of households (f) | 4       | 5       | 12      | 2       | 2       |
 
 **Solution steps:**
+
 1. Prepare the $cf$ table.
 
-| Class | f | cf |
-| :--- | :--- | :--- |
-| 100-150 | 4 | 4 |
-| 150-200 | 5 | 9 |
-| **200-250** | **12**| **21** |
-| 250-300 | 2 | 23 |
-| 300-350 | 2 | 25 |
+| Class       | f      | cf     |
+| :---------- | :----- | :----- |
+| 100-150     | 4      | 4      |
+| 150-200     | 5      | 9      |
+| **200-250** | **12** | **21** |
+| 250-300     | 2      | 23     |
+| 300-350     | 2      | 25     |
 
 2. Here, $N = 25$. So, $N/2 = 12.5$.
-3. The cumulative frequency just greater than or equal to 12.5 is 21. 
+3. The cumulative frequency just greater than or equal to 12.5 is 21.
    Therefore, the **median class is 200-250**.
 4. Extract values for formula:
    $L = 200$ (lower limit)
    $N = 25$
-   $cf = 9$ (cumulative frequency of class *preceding* median class)
+   $cf = 9$ (cumulative frequency of class _preceding_ median class)
    $f = 12$ (frequency of median class)
    $h = 50$ (class size)
 5. Apply formula:
@@ -189,32 +194,32 @@ Therefore, 20-30 is the median class.
    $\text{Median} = 200 + \left[ \frac{3.5}{12} \right] \times 50$
    $\text{Median} = 200 + \left[ \frac{175}{12} \right]$
    $\text{Median} = 200 + 14.58$
-**Final answer:** ₹ 214.58
+   **Final answer:** ₹ 214.58
 
 ## 8. Interpretation in Data Science
 
-In modern data science, the median is a cornerstone of **robust statistics**. 
+In modern data science, the median is a cornerstone of **robust statistics**.
 
-*   **Skewed Datasets:** Data in the real world (incomes, web page load times, followers on social media) is rarely bell-shaped. It is usually "skewed" (having a long tail on one side). For skewed distributions, the mean gets dragged towards the tail, but the median stays anchored at the center of mass.
-*   **Outlier Handling:** Machine learning models (like Linear Regression) are highly sensitive to outliers. Data scientists often use the median to impute (fill in) missing values instead of the mean, ensuring that a few extreme errors don't corrupt the training data.
-*   **Dashboards & Reporting:** When building analytics dashboards for business executives, metrics like "Median Session Duration" or "Median Revenue per User" are preferred over averages to prevent a single massive transaction from making a bad day look good.
-*   **Preprocessing Pipelines:** In scaling and normalization (e.g., RobustScaler in Python's scikit-learn), the median is used to center the data, making the preprocessing step immune to extreme values.
+- **Skewed Datasets:** Data in the real world (incomes, web page load times, followers on social media) is rarely bell-shaped. It is usually "skewed" (having a long tail on one side). For skewed distributions, the mean gets dragged towards the tail, but the median stays anchored at the center of mass.
+- **Outlier Handling:** Machine learning models (like Linear Regression) are highly sensitive to outliers. Data scientists often use the median to impute (fill in) missing values instead of the mean, ensuring that a few extreme errors don't corrupt the training data.
+- **Dashboards & Reporting:** When building analytics dashboards for business executives, metrics like "Median Session Duration" or "Median Revenue per User" are preferred over averages to prevent a single massive transaction from making a bad day look good.
+- **Preprocessing Pipelines:** In scaling and normalization (e.g., RobustScaler in Python's scikit-learn), the median is used to center the data, making the preprocessing step immune to extreme values.
 
 ## 9. Comparison With Other Measures
 
-| Feature | Mean | Median | Mode |
-| :--- | :--- | :--- | :--- |
-| **What it is** | Mathematical average | Positional middle | Most frequent value |
-| **Outlier Sensitivity** | Very High (pulled easily) | **Zero (Robust)** | Zero |
-| **Best used for** | Symmetric, clean data | **Skewed data, incomes, real estate** | Categorical data, finding popular items |
-| **Algebraic Treatment**| Capable of further algebra | **Not capable** | Not capable |
-| **Data Types** | Continuous / Interval | **Ordinal / Interval / Continuous** | Nominal / Ordinal / Continuous |
+| Feature                 | Mean                       | Median                                | Mode                                    |
+| :---------------------- | :------------------------- | :------------------------------------ | :-------------------------------------- |
+| **What it is**          | Mathematical average       | Positional middle                     | Most frequent value                     |
+| **Outlier Sensitivity** | Very High (pulled easily)  | **Zero (Robust)**                     | Zero                                    |
+| **Best used for**       | Symmetric, clean data      | **Skewed data, incomes, real estate** | Categorical data, finding popular items |
+| **Algebraic Treatment** | Capable of further algebra | **Not capable**                       | Not capable                             |
+| **Data Types**          | Continuous / Interval      | **Ordinal / Interval / Continuous**   | Nominal / Ordinal / Continuous          |
 
 ## 10. Exam Strategy Box
 
 > 💡 Exam Tip: Always sort raw data before finding the median. 90% of silly mistakes in Section A happen because students forget to arrange the numbers in ascending order.
 > 💡 Exam Tip: In grouped data, double-check your cumulative frequency ($cf$) column. The last value in the $cf$ column must exactly equal the total frequency ($\sum f$ or $N$). If it doesn't, you made an addition error.
-> 💡 Exam Tip: When using the grouped data formula, the $cf$ used is ALWAYS from the class *above* the median class, but the $f$ is from the median class itself.
+> 💡 Exam Tip: When using the grouped data formula, the $cf$ used is ALWAYS from the class _above_ the median class, but the $f$ is from the median class itself.
 > 💡 Exam Tip: If the class intervals are non-continuous (e.g., 10-19, 20-29), you MUST convert them to continuous boundaries (9.5-19.5, 19.5-29.5) before finding $L$ and $h$.
 > 💡 Exam Tip: The empirical relationship between Mean, Median, and Mode is `Mode = 3(Median) - 2(Mean)`. Memorize this; it frequently appears in 1-mark MCQs.
 
@@ -223,12 +228,13 @@ In modern data science, the median is a cornerstone of **robust statistics**.
 > ⚠️ Common Error: Using the median class's own cumulative frequency instead of the preceding class's $cf$ in the formula.
 > ⚠️ Common Error: Confusing the formulas for odd and even $n$ in raw data. Remember, even $n$ requires finding the average of TWO middle terms.
 > ⚠️ Common Error: Calculating $h$ incorrectly. $h$ is Upper Limit - Lower Limit. Do not just count the number of classes.
-> ⚠️ Common Error: Forgetting BODMAS. Students often add $L$ to the numerator before dividing by $f$. Always calculate the fraction part entirely, multiply by $h$, and *then* add $L$ last.
+> ⚠️ Common Error: Forgetting BODMAS. Students often add $L$ to the numerator before dividing by $f$. Always calculate the fraction part entirely, multiply by $h$, and _then_ add $L$ last.
 > ⚠️ Common Error: Ignoring data units. If the data is in thousands (₹ '000), make sure your final answer reflects that (e.g., 12.5 means ₹ 12,500).
 
 ## 12. Practice Exercises (NCERT + Competitive Exam Style)
 
 ### Section A: Very Short Answer (1 mark)
+
 1. Find the median of the first 9 prime numbers.
 2. If the median of sorted data 12, 14, 17, $x+2$, $x+4$, 25, 28, 30 is 21, find $x$.
 3. What is the median of an array of 50 consecutive integers starting from 1?
@@ -236,6 +242,7 @@ In modern data science, the median is a cornerstone of **robust statistics**.
 5. Using the empirical formula, find the median if mode = 24 and mean = 27.
 
 ### Section B: Short Answer (2-3 marks)
+
 6. Find the median of the following observations: 46, 64, 87, 41, 58, 77, 35, 90, 55, 33, 92. If 92 is replaced by 99 and 41 by 43 in the above data, find the new median.
 7. The median of the following data is 16. Find the missing frequency $p$.
    $x$: 10, 15, 20, 25
@@ -254,6 +261,7 @@ In modern data science, the median is a cornerstone of **robust statistics**.
 10. If the values of a dataset are multiplied by 3, what happens to the median? Prove with a small example.
 
 ### Section C: Exam Level Problems (4-5 marks)
+
 11. The median of the following distribution is 28.5. Find the values of $x$ and $y$, if the total frequency is 60.
     Class: 0-10, 10-20, 20-30, 30-40, 40-50, 50-60
     Frequency: 5, $x$, 20, 15, $y$, 5
@@ -279,6 +287,7 @@ In modern data science, the median is a cornerstone of **robust statistics**.
     Frequency: 8, 10, 12, 6
 
 ### Section D: Conceptual Reasoning (For Data Science & Advanced Competitions)
+
 16. In a right-skewed dataset (e.g., national wealth distribution), what is the typical relationship between the mean and the median (which one is larger)? Why?
 17. A data engineer notices that a faulty sensor randomly recorded a temperature of 9999°C instead of 25°C. Will this error affect the daily median temperature calculation? Explain why.
 18. Why can't we find the exact median from a grouped frequency distribution? What assumption does the interpolation formula make?
@@ -288,7 +297,8 @@ In modern data science, the median is a cornerstone of **robust statistics**.
 ## 13. Fully Solved Answers
 
 ### Section A
-**1. Solution:** First 9 primes: 2, 3, 5, 7, 11, 13, 17, 19, 23. Number of terms $n=9$ (odd). Median is the 5th term. 
+
+**1. Solution:** First 9 primes: 2, 3, 5, 7, 11, 13, 17, 19, 23. Number of terms $n=9$ (odd). Median is the 5th term.
 Answer: 11.
 
 **2. Solution:** The data is already sorted. $n=8$ (even). Median is the average of 4th and 5th terms.
@@ -310,22 +320,23 @@ $78 = 3(\text{Median}) \Rightarrow \text{Median} = 26$.
 Answer: 26.
 
 ### Section B
-**6. Solution:** 
+
+**6. Solution:**
 Original sorted: 33, 35, 41, 46, 55, 58, 64, 77, 87, 90, 92. ($n=11$)
 Median = 6th term = 58.
 New dataset sorted: 33, 35, 43, 46, 55, 58, 64, 77, 87, 90, 99. ($n=11$)
 New Median = 6th term = 58.
 Answer: The median remains 58. (Demonstrates robustness to extremes).
 
-**7. Solution:** 
-Prepare $cf$: 
+**7. Solution:**
+Prepare $cf$:
 $10: 3 \rightarrow cf=3$
 $15: p \rightarrow cf=3+p$
 $20: 4 \rightarrow cf=7+p$
 $25: 2 \rightarrow cf=9+p$
-$N = 9+p$. 
-Median is given as 16, which means the median occurs between 15 and 20, but since data is discrete, the cumulative frequency at value 15 must contain the median position. For discrete series, $N/2$ method is tricky with unknowns. Better method: Since median is 16, it implies... wait, the data is 10, 15, 20, 25. If median is 16, this is impossible for discrete data unless it's an even array and average is 16. The average of 15 and x? No. Let's assume the question meant Continuous Data or Median = 15. If Median is 16 in a discrete set, the data is invalid. *Correction in interpretation*: If median is 16, it must lie between 15 and 20. But for discrete data, it must be an exact value unless it's an average of 15 and 20 (which is 17.5). Thus, the problem is structurally flawed for discrete series. Let's assume it meant grouped: 5-10, 10-15... Let's use the standard approach: Median is 15. Then $(3+p)$ must be greater than $N/2$. Skip this ambiguous interpretation, assume median is exactly 15. If median = 15, then position $N/2$ falls in $cf = 3+p$. 
-*Self-correction*: If median is 16, and data is discrete, this is impossible. If the question implies a weighted median or grouped data with missing intervals, it's poorly phrased. Let's provide the conceptual answer: "A discrete median must be a data point or the exact average of two adjacent points. Since 16 is neither 15, 20, nor their average (17.5), the given data is inconsistent."
+$N = 9+p$.
+Median is given as 16, which means the median occurs between 15 and 20, but since data is discrete, the cumulative frequency at value 15 must contain the median position. For discrete series, $N/2$ method is tricky with unknowns. Better method: Since median is 16, it implies... wait, the data is 10, 15, 20, 25. If median is 16, this is impossible for discrete data unless it's an even array and average is 16. The average of 15 and x? No. Let's assume the question meant Continuous Data or Median = 15. If Median is 16 in a discrete set, the data is invalid. _Correction in interpretation_: If median is 16, it must lie between 15 and 20. But for discrete data, it must be an exact value unless it's an average of 15 and 20 (which is 17.5). Thus, the problem is structurally flawed for discrete series. Let's assume it meant grouped: 5-10, 10-15... Let's use the standard approach: Median is 15. Then $(3+p)$ must be greater than $N/2$. Skip this ambiguous interpretation, assume median is exactly 15. If median = 15, then position $N/2$ falls in $cf = 3+p$.
+_Self-correction_: If median is 16, and data is discrete, this is impossible. If the question implies a weighted median or grouped data with missing intervals, it's poorly phrased. Let's provide the conceptual answer: "A discrete median must be a data point or the exact average of two adjacent points. Since 16 is neither 15, 20, nor their average (17.5), the given data is inconsistent."
 
 **8. Solution:**
 Class intervals are formed by taking differences.
@@ -359,6 +370,7 @@ Multiply by 3: 3, 6, 9 (Median = 6)
 Answer: The median is also multiplied by 3. This is a property of positional averages under scaling.
 
 ### Section C
+
 **11. Solution:**
 $cf$ table:
 0-10: 5 $\rightarrow cf = 5$
@@ -440,6 +452,7 @@ $\text{Median} = 20 + \left[ \frac{18 - 8}{10} \right] \times 30 = 20 + \left[ \
 Answer: 50.
 
 ### Section D
+
 **16. Solution:** In a right-skewed dataset, the Mean is larger than the Median. The long tail on the right (extremely high values) pulls the mathematical average upwards, while the median remains anchored in the middle of the sorted list.
 **17. Solution:** No, it will not affect the median (or only minimally). The median only cares about the order. Whether the highest value is 30°C or 9999°C, it remains the last item in the sorted list. The middle position does not shift. This is why the median is "robust to outliers."
 **18. Solution:** The formula assumes that frequencies are uniformly (evenly) distributed within the median class. Since we don't have the raw data, we interpolate assuming a straight-line distribution of points within that specific interval.
@@ -454,33 +467,37 @@ Imagine you are a data analyst scraping property prices for a small neighborhood
 Prices (in ₹ Crores): `1.2, 1.5, 1.4, 1.3, 1.6, 1.2, 1.4, 25.0`
 
 Notice that one house is a massive luxury mansion worth ₹ 25.0 Cr.
-*   **Mean Calculation:** (1.2 + 1.5 + 1.4 + 1.3 + 1.6 + 1.2 + 1.4 + 25.0) / 8 = **₹ 4.32 Cr**
-*   **Median Calculation:** Sort: 1.2, 1.2, 1.3, 1.4, 1.4, 1.5, 1.6, 25.0. Average of 4th and 5th terms = (1.4 + 1.4)/2 = **₹ 1.4 Cr**
+
+- **Mean Calculation:** (1.2 + 1.5 + 1.4 + 1.3 + 1.6 + 1.2 + 1.4 + 25.0) / 8 = **₹ 4.32 Cr**
+- **Median Calculation:** Sort: 1.2, 1.2, 1.3, 1.4, 1.4, 1.5, 1.6, 25.0. Average of 4th and 5th terms = (1.4 + 1.4)/2 = **₹ 1.4 Cr**
 
 **Interpretation:**
 If a real estate app displays the "Average House Price" as ₹ 4.32 Cr, a normal buyer will assume the neighborhood is completely unaffordable and ignore it. However, the Median price of ₹ 1.4 Cr accurately tells the buyer what a typical house actually costs. Dashboards invariably use median for real estate pricing to filter out the noise of luxury outlier properties.
 
 ## 15. Quick Revision Sheet
 
-*   **Key Idea:** The median is the middle value of an *ordered* dataset. 50% of data is below it, 50% is above it.
-*   **Formula (Raw Odd):** $\left(\frac{n+1}{2}\right)^{th}$ term.
-*   **Formula (Raw Even):** Average of $\left(\frac{n}{2}\right)^{th}$ and $\left(\frac{n}{2} + 1\right)^{th}$ terms.
-*   **Formula (Grouped):** $L + \left[ \frac{\frac{N}{2} - cf}{f} \right] \times h$
-*   **When to Use:** When data is skewed, has extreme outliers, or deals with incomes/real estate/lifespans.
-*   **When NOT to Use:** When total sums are important, or the data is perfectly symmetric and small.
-*   **Shortcut:** Mode = 3(Median) - 2(Mean)
+- **Key Idea:** The median is the middle value of an _ordered_ dataset. 50% of data is below it, 50% is above it.
+- **Formula (Raw Odd):** $\left(\frac{n+1}{2}\right)^{th}$ term.
+- **Formula (Raw Even):** Average of $\left(\frac{n}{2}\right)^{th}$ and $\left(\frac{n}{2} + 1\right)^{th}$ terms.
+- **Formula (Grouped):** $L + \left[ \frac{\frac{N}{2} - cf}{f} \right] \times h$
+- **When to Use:** When data is skewed, has extreme outliers, or deals with incomes/real estate/lifespans.
+- **When NOT to Use:** When total sums are important, or the data is perfectly symmetric and small.
+- **Shortcut:** Mode = 3(Median) - 2(Mean)
 
 ## 16. Interview & Data Science Questions
 
 ### Beginner
+
 **Q:** You are given a list of user ages. How do you find the median using Python?
 **A:** `import numpy as np; median_age = np.median(ages_list)`. Behind the scenes, numpy sorts the array and extracts the middle element (or average of two middle elements).
 
 ### Intermediate
+
 **Q:** In an e-commerce dashboard, why do we report "Median Order Value" instead of "Average Order Value"?
 **A:** If 99 customers buy a ₹500 t-shirt, and 1 customer buys a ₹1,00,000 diamond ring, the average order value spikes artificially. The median order value remains ₹500, accurately reflecting the typical customer behavior, which is better for setting marketing budgets.
 
 ### Advanced
+
 **Q:** Explain the concept of Breakdown Point. What is the breakdown point of the median compared to the mean?
 **A:** Breakdown point is the proportion of incorrect/extreme data points a statistic can handle before giving a completely false result. The mean has a breakdown point of 0% (one infinity value corrupts the mean). The median has a breakdown point of 50%; you can replace nearly half the data with infinity, and the median will still accurately represent the remaining core data.
 
@@ -517,9 +534,9 @@ C) 32
 D) 27
 
 ## Mini Quiz Answer Key
+
 1. B
 2. B
 3. C
 4. C
 5. A
-```
