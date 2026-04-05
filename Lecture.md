@@ -1,542 +1,500 @@
-# Lecture 2: Median
+# Lecture 1: Mean
 
 ## 1. Why This Concept Matters
 
-Imagine you are looking at the salaries of five people working at a small startup: four junior developers earning ₹50,000 each, and one CEO earning ₹5,00,000. If we calculate the average (mean) salary, it comes out to ₹1,40,000. Does this average accurately represent what a typical employee earns? Not at all! The CEO's massive salary pulls the average up, making it a misleading representation.
+If a cricket player scores 50, 100, 0, 10, and 90 runs in five consecutive matches, how do we judge their overall performance? We cannot just look at the 100 and say they are always brilliant, nor can we look at the 0 and call them terrible. We need a single number that represents their "typical" or "average" performance.
 
-In the real world—whether in economics examining national income, real estate pricing houses, or machine learning algorithms analyzing user behavior—data is rarely perfectly balanced. There are always extremes or "outliers." This is where the **Median** comes to the rescue. The median is the true "middle" of the data, completely unaffected by extreme values. It gives us a much more honest picture of the typical scenario in everyday observations and messy datasets.
+In economics, when we talk about the "per capita income" of a country, we are talking about the mean. When a machine learning model predicts the average price of a house in a city based on historical data, it relies fundamentally on the mathematics of the mean. The mean allows us to compress large, complex datasets into a single, digestible summary number. It is the center of gravity for data.
 
 ## 2. Understanding the Idea Intuitively
 
-Think of the median as the middle person in a line.
+Think of the mean as the concept of "fair share."
 
-If you ask 5 students to stand in order of their heights, from shortest to tallest, the student standing exactly in the 3rd position is the median. Half of the students are shorter than this person, and half are taller.
+Imagine three friends have 2, 5, and 8 chocolates, respectively. They decide to pool all their chocolates together and then divide them equally so everyone has the exact same amount.
+Total chocolates = 2 + 5 + 8 = 15.
+Divided among 3 friends = 15 / 3 = 5 chocolates each.
 
-It does not matter if the tallest student suddenly grows an extra foot taller; the person in the middle remains exactly the same. The median is a _positional_ average. It cares about _where_ the data points sit in an ordered list, not about the exact numerical weight of the extremes.
+This "fair share" value of 5 is the arithmetic mean.
+
+Another way to think of the mean is as a physical **balancing point** (or center of mass) on a seesaw. If you place weights on a number line at positions 2, 5, and 8, the seesaw will perfectly balance if you place the fulcrum exactly at 5.
 
 ## 3. Observing Patterns From Data
 
-Let's look at a small set of test scores (out of 20):
-`[12, 15, 11, 19, 14]`
+Let's look at the daily pocket money of 4 students: ₹20, ₹30, ₹40, and ₹70.
 
-**Step 1:** Order is crucial. We must arrange them first.
-Ascending order: `11, 12, 14, 15, 19`
+To find the central value, we first combine everything:
+Total Pool = 20 + 30 + 40 + 70 = ₹160.
 
-**Step 2:** Find the middle.
-Since there are 5 numbers (an odd count), the middle one is clearly the 3rd number.
-Median = `14`.
+Now, distribute this pool equally among the 4 students:
+Equal Share = 160 / 4 = ₹40.
 
-What if we have 6 test scores? Let's add an extreme score of `2`:
-`[12, 15, 11, 19, 14, 2]`
-
-**Step 1:** Arrange in ascending order.
-`2, 11, 12, 14, 15, 19`
-
-**Step 2:** Find the middle.
-Now we have two middle numbers: `12` and `14`. The median is exactly halfway between them.
-Median = (12 + 14) / 2 = `13`.
-
-Notice how the extreme score of `2` barely shifted our central value (from 14 to 13).
+The mean pocket money is ₹40. Notice how the mean is influenced by every single value in the dataset. If the last student had ₹110 instead of ₹70, the total pool would be larger, and the mean would shift upwards.
 
 ## 4. Rule for Finding the Concept
 
-The mathematical rule depends on the type of data we are given.
+The rule for calculating the mean depends on how the data is presented to us.
 
-**A. For Raw/Ungrouped Data**
+### A. For Raw/Ungrouped Data
 
-Let $n$ be the total number of observations, arranged in ascending or descending order.
-
-| Condition          | Formula                                                                                                  |
-| :----------------- | :------------------------------------------------------------------------------------------------------- |
-| If $n$ is **Odd**  | Median is the value of the $\left(\frac{n+1}{2}\right)^{th}$ term.                                       |
-| If $n$ is **Even** | Median is the mean of the $\left(\frac{n}{2}\right)^{th}$ and $\left(\frac{n}{2} + 1\right)^{th}$ terms. |
-
-**B. For Grouped Data (Continuous Frequency Distribution)**
-
-When data is given in class intervals (e.g., 0-10, 10-20), we cannot see individual values. We use an interpolation formula to estimate the median within the "Median Class".
+If we have $n$ individual observations: $x_1, x_2, x_3, \dots, x_n$
 
 **Formula:**
-$$\text{Median} = L + \left[ \frac{\frac{N}{2} - cf}{f} \right] \times h$$
+$$\bar{x} = \frac{x_1 + x_2 + \dots + x_n}{n} = \frac{\sum x_i}{n}$$
 
-| Symbol   | Meaning                                                        |
-| :------- | :------------------------------------------------------------- |
-| **$L$**  | Lower limit of the median class                                |
-| **$N$**  | Total frequency ($\sum f$)                                     |
-| **$cf$** | Cumulative frequency of the class _preceding_ the median class |
-| **$f$**  | Frequency of the median class                                  |
-| **$h$**  | Class size (width) of the median class                         |
+### B. For Ungrouped Frequency Distribution (Weighted Mean Intuition)
+
+When certain values repeat, we use frequencies ($f_i$) instead of adding them multiple times.
+
+**Formula:**
+$$\bar{x} = \frac{f_1x_1 + f_2x_2 + \dots + f_nx_n}{f_1 + f_2 + \dots + f_n} = \frac{\sum f_ix_i}{\sum f_i}$$
+
+### C. For Grouped Data (Continuous Distribution)
+
+For class intervals (e.g., 10-20), we find the class mark ($x_i$) which is the midpoint of the interval. Then we can use one of three methods:
+
+**1. Direct Method:**
+$$\bar{x} = \frac{\sum f_ix_i}{\sum f_i}$$
+
+**2. Assumed Mean Method (Shortcut Method):**
+Used when $x_i$ and $f_i$ are large numbers. We assume an arbitrary mean '$a$' from the middle of the $x_i$ column.
+$$\bar{x} = a + \frac{\sum f_id_i}{\sum f_i}$$
+where $d_i = x_i - a$ (deviation from assumed mean).
+
+**3. Step-Deviation Method:**
+Used when the class sizes ($h$) are equal. It simplifies calculations further.
+$$\bar{x} = a + \left( \frac{\sum f_iu_i}{\sum f_i} \right) \times h$$
+where $u_i = \frac{x_i - a}{h}$.
+
+| Symbol        | Meaning                                         |
+| :------------ | :---------------------------------------------- |
+| **$\bar{x}$** | Arithmetic Mean (read as "x bar")               |
+| **$\sum$**    | Sigma (Summation of)                            |
+| **$x_i$**     | Individual observation or Class Mark (midpoint) |
+| **$f_i$**     | Frequency of the $i^{th}$ observation           |
+| **$a$**       | Assumed Mean                                    |
+| **$d_i$**     | Deviation ($x_i - a$)                           |
+| **$u_i$**     | Step deviation ($(x_i - a)/h$)                  |
+| **$h$**       | Class size / Class width                        |
 
 ## 5. Step-by-Step Method
 
-**For Continuous Grouped Data (Board/Exam Standard Procedure):**
+**Algorithm for Grouped Data (Assumed Mean Method):**
 
-1.  **Create a $cf$ Column:** Add a new column for Cumulative Frequency ($cf$) next to the given frequencies.
-2.  **Find $N/2$:** Sum all frequencies to get $N$. Calculate $\frac{N}{2}$.
-3.  **Locate Median Class:** Look at the $cf$ column. Find the $cf$ value that is _just greater than or equal to_ $\frac{N}{2}$. The corresponding class interval is your Median Class.
-4.  **Extract Variables:** From the table, note down $L$, $cf$ (from the row _above_ the median class), $f$, and $h$.
-5.  **Apply Formula:** Substitute values into the formula and solve carefully, following BODMAS rules.
+1. **Class Mark ($x_i$):** Create a new column for the midpoint of each class interval. $x_i = \frac{\text{Upper Limit} + \text{Lower Limit}}{2}$.
+2. **Choose '$a$':** Select a value near the middle of the $x_i$ column to be your Assumed Mean ($a$).
+3. **Deviations ($d_i$):** Create a column for $d_i$ by subtracting '$a$' from every $x_i$ value ($d_i = x_i - a$).
+4. **Product ($f_id_i$):** Multiply each frequency $f_i$ by its corresponding $d_i$.
+5. **Summation:** Find the sum of all frequencies ($\sum f_i$) and the sum of the products ($\sum f_id_i$).
+6. **Apply Formula:** Plug the values into $\bar{x} = a + \frac{\sum f_id_i}{\sum f_i}$.
 
 ## 6. Visual Understanding
 
-**Diagram 1: The Concept of Positional Middle (Odd vs Even)**
+**Diagram 1: Data Flow for Arithmetic Mean**
 
 ```text
-Odd Number of Items (n=5)
-Raw:  [7]  [1]  [9]  [3]  [5]
-       |    |    |    |    |
-Sort: [1]  [3]  [5]  [7]  [9]
-                 ^
-                 |
-               MEDIAN (Exactly the middle item)
-
-Even Number of Items (n=6)
-Raw:  [7]  [1]  [9]  [3]  [5]  [8]
-       |    |    |    |    |    |
-Sort: [1]  [3]  [5]  [7]  [8]  [9]
-                  \  /
-                   \/
-                 MEDIAN = (5+7)/2 = 6
+  [ Dataset Values ]
+    2, 5, 8, 9, 11
+          |
+          v
+   [ Total Sum ]
+    (2+5+8+9+11) = 35
+          |
+          v
+ [ Divide by Count ]
+       (n = 5)
+          |
+          v
+   [ Arithmetic Mean ]
+     35 / 5 = 7
 ```
 
-**Diagram 2: Finding the Median Class in Grouped Data**
+**Diagram 2: Mean as a Physical Balancing Point (Center of Mass)**
 
 ```text
- Class | Freq(f)| Cum.Freq(cf)
--------|--------|-------------
- 0-10  |   5    |   5
- 10-20 |   8    |  13  <--- (cf just above preceding)
- 20-30 |  12    |  25  <--- MEDIAN CLASS (contains N/2)
- 30-40 |   5    |  30  <--- N = 30
--------|--------|-------------
-          Total N = 30
-          N/2 = 15
-
-Search cf column for value >= 15.
-'25' is the first cf >= 15.
-Therefore, 20-30 is the median class.
+      Values:     2         5         8
+                  |         |         |
+      Weights:   [x]       [x]       [x]
+Number Line: --+--+--+--+--+--+--+--+--+--+--
+               1  2  3  4  5  6  7  8  9  10
+                           ^
+                           |
+                        FULCRUM
+                       (Mean = 5)
+The distance of 2 from 5 is 3 units left (-3).
+The distance of 8 from 5 is 3 units right (+3).
+The sum of deviations from the mean is always ZERO (-3 + 0 + 3 = 0).
 ```
 
 ## 7. Solved Examples
 
-### Example 1 — Basic (Ungrouped Data)
+### Example 1 — Basic
 
-**Problem:** Find the median of the following data: 34, 47, 41, 52, 53, 56, 35, 49, 55, 42.
+**Problem:** Find the mean of the first 5 prime numbers.
 **Solution steps:**
 
-1. Sort the data in ascending order:
-   34, 35, 41, 42, 47, 49, 52, 53, 55, 56
-2. Count the number of observations ($n$). Here, $n = 10$ (which is even).
-3. Since $n$ is even, median = mean of $\left(\frac{10}{2}\right)^{th}$ and $\left(\frac{10}{2} + 1\right)^{th}$ terms.
-   Median = mean of 5th and 6th terms.
-4. The 5th term is 47, and the 6th term is 49.
-   Median = $\frac{47 + 49}{2} = \frac{96}{2} = 48$.
-   **Final answer:** 48
+1. Identify the first 5 prime numbers: 2, 3, 5, 7, 11.
+2. Count the number of observations ($n$): 5.
+3. Calculate the sum of observations ($\sum x_i$): 2 + 3 + 5 + 7 + 11 = 28.
+4. Apply the formula for raw data: $\bar{x} = \frac{\sum x_i}{n} = \frac{28}{5}$.
+5. $\bar{x} = 5.6$.
+   **Final answer:** 5.6
 
-### Example 2 — Moderate (Discrete Frequency Distribution)
+### Example 2 — Moderate
 
-**Problem:** Find the median of the following distribution:
-
-| Variable (x)  | 10  | 12  | 14  | 16  | 18  | 20  |
-| :------------ | :-- | :-- | :-- | :-- | :-- | :-- |
-| Frequency (f) | 3   | 5   | 6   | 4   | 4   | 3   |
-
+**Problem:** The mean of 5 numbers is 18. If one number is excluded, their mean becomes 16. Find the excluded number.
 **Solution steps:**
 
-1. Construct the Cumulative Frequency ($cf$) table.
+1. Mean of 5 numbers = 18.
+   Therefore, Sum of 5 numbers = $5 \times 18 = 90$.
+2. When one number is excluded, 4 numbers remain.
+   New mean of 4 numbers = 16.
+   Sum of these 4 numbers = $4 \times 16 = 64$.
+3. Excluded number = (Sum of 5 numbers) - (Sum of 4 numbers).
+   Excluded number = 90 - 64 = 26.
+   **Final answer:** 26
 
-| x   | f   | cf  |
-| :-- | :-- | :-- |
-| 10  | 3   | 3   |
-| 12  | 5   | 8   |
-| 14  | 6   | 14  |
-| 16  | 4   | 18  |
-| 18  | 4   | 22  |
-| 20  | 3   | 25  |
+### Example 3 — Advanced
 
-2. Find $N$ (Total frequency). $N = 25$.
-3. Calculate $N/2 = 25/2 = 12.5$.
-4. Look at the $cf$ column. The cumulative frequency just greater than 12.5 is 14.
-5. The value of $x$ corresponding to $cf = 14$ is 14.
-   **Final answer:** 14
+**Problem:** Find the mean of the following frequency distribution using the Assumed Mean Method.
 
-### Example 3 — Advanced (Continuous Grouped Data)
-
-**Problem:** The table below shows the daily expenditure on food of 25 households in a locality. Find the median daily expenditure.
-
-| Daily Expenditure (₹) | 100-150 | 150-200 | 200-250 | 250-300 | 300-350 |
-| :-------------------- | :------ | :------ | :------ | :------ | :------ |
-| No. of households (f) | 4       | 5       | 12      | 2       | 2       |
+| Class Interval    | 0-10 | 10-20 | 20-30 | 30-40 | 40-50 |
+| :---------------- | :--- | :---- | :---- | :---- | :---- |
+| Frequency ($f_i$) | 7    | 8     | 12    | 13    | 10    |
 
 **Solution steps:**
 
-1. Prepare the $cf$ table.
+1. Construct the computation table. Let assumed mean $a = 25$.
 
-| Class       | f      | cf     |
-| :---------- | :----- | :----- |
-| 100-150     | 4      | 4      |
-| 150-200     | 5      | 9      |
-| **200-250** | **12** | **21** |
-| 250-300     | 2      | 23     |
-| 300-350     | 2      | 25     |
+| Class Interval | $f_i$               | $x_i$ (Midpoint) | $d_i = x_i - 25$ | $f_id_i$                |
+| :------------- | :------------------ | :--------------- | :--------------- | :---------------------- |
+| 0-10           | 7                   | 5                | -20              | -140                    |
+| 10-20          | 8                   | 15               | -10              | -80                     |
+| 20-30          | 12                  | **25** ($a$)     | 0                | 0                       |
+| 30-40          | 13                  | 35               | 10               | 130                     |
+| 40-50          | 10                  | 45               | 20               | 200                     |
+| **Total**      | **$\sum f_i = 50$** |                  |                  | **$\sum f_id_i = 110$** |
 
-2. Here, $N = 25$. So, $N/2 = 12.5$.
-3. The cumulative frequency just greater than or equal to 12.5 is 21.
-   Therefore, the **median class is 200-250**.
-4. Extract values for formula:
-   $L = 200$ (lower limit)
-   $N = 25$
-   $cf = 9$ (cumulative frequency of class _preceding_ median class)
-   $f = 12$ (frequency of median class)
-   $h = 50$ (class size)
-5. Apply formula:
-   $\text{Median} = L + \left[ \frac{\frac{N}{2} - cf}{f} \right] \times h$
-   $\text{Median} = 200 + \left[ \frac{12.5 - 9}{12} \right] \times 50$
-   $\text{Median} = 200 + \left[ \frac{3.5}{12} \right] \times 50$
-   $\text{Median} = 200 + \left[ \frac{175}{12} \right]$
-   $\text{Median} = 200 + 14.58$
-   **Final answer:** ₹ 214.58
+2. Apply the Assumed Mean formula: $\bar{x} = a + \frac{\sum f_id_i}{\sum f_i}$
+3. Substitute the values: $\bar{x} = 25 + \frac{110}{50}$
+4. Simplify: $\bar{x} = 25 + 2.2 = 27.2$.
+   **Final answer:** 27.2
 
 ## 8. Interpretation in Data Science
 
-In modern data science, the median is a cornerstone of **robust statistics**.
+In data science, the mean is ubiquitous but must be used with extreme caution.
 
-- **Skewed Datasets:** Data in the real world (incomes, web page load times, followers on social media) is rarely bell-shaped. It is usually "skewed" (having a long tail on one side). For skewed distributions, the mean gets dragged towards the tail, but the median stays anchored at the center of mass.
-- **Outlier Handling:** Machine learning models (like Linear Regression) are highly sensitive to outliers. Data scientists often use the median to impute (fill in) missing values instead of the mean, ensuring that a few extreme errors don't corrupt the training data.
-- **Dashboards & Reporting:** When building analytics dashboards for business executives, metrics like "Median Session Duration" or "Median Revenue per User" are preferred over averages to prevent a single massive transaction from making a bad day look good.
-- **Preprocessing Pipelines:** In scaling and normalization (e.g., RobustScaler in Python's scikit-learn), the median is used to center the data, making the preprocessing step immune to extreme values.
+- **Sensitivity to Outliers:** The mean incorporates every single data point. If you have an income dataset of `[30k, 40k, 50k, 60k]` the mean is 45k. If a billionaire is added `[30k, 40k, 50k, 60k, 100000k]`, the new mean skyrockets to ~20000k. The mean is highly sensitive to extreme values (outliers).
+- **Skewed Datasets:** Because of outlier sensitivity, the mean is a poor metric for heavily skewed distributions (like wealth, house prices, or YouTube views). In right-skewed data, the mean is pulled sharply to the right.
+- **Preprocessing and Normalization:** In machine learning, algorithms (like Neural Networks or SVMs) prefer data centered around zero. We use the mean for **Standardization (Z-score normalization)**: $z = \frac{x - \mu}{\sigma}$. We subtract the dataset's mean from every feature to center the data at 0.
+- **Imputation (Feature Engineering):** When datasets have missing values (NaNs), a common baseline technique is to replace the missing values with the column's mean (Mean Imputation), provided the feature is symmetrically distributed.
 
 ## 9. Comparison With Other Measures
 
-| Feature                 | Mean                       | Median                                | Mode                                    |
-| :---------------------- | :------------------------- | :------------------------------------ | :-------------------------------------- |
-| **What it is**          | Mathematical average       | Positional middle                     | Most frequent value                     |
-| **Outlier Sensitivity** | Very High (pulled easily)  | **Zero (Robust)**                     | Zero                                    |
-| **Best used for**       | Symmetric, clean data      | **Skewed data, incomes, real estate** | Categorical data, finding popular items |
-| **Algebraic Treatment** | Capable of further algebra | **Not capable**                       | Not capable                             |
-| **Data Types**          | Continuous / Interval      | **Ordinal / Interval / Continuous**   | Nominal / Ordinal / Continuous          |
+| Feature                     | Mean                                                           | Median                             | Mode                                              |
+| :-------------------------- | :------------------------------------------------------------- | :--------------------------------- | :------------------------------------------------ |
+| **Mathematical Definition** | Sum divided by count                                           | The middle positional value        | Most frequently occurring value                   |
+| **Outlier Sensitivity**     | **Extremely High**                                             | Zero / Robust                      | Zero                                              |
+| **Uses all data points?**   | **Yes**                                                        | No                                 | No                                                |
+| **Best used for**           | Symmetric, clean, continuous data (e.g., heights, test scores) | Skewed data (incomes, real estate) | Categorical data (shoe sizes, most popular color) |
+| **Algebraic manipulation**  | **Highly capable** (used in variance, standard deviation)      | Not capable                        | Not capable                                       |
 
 ## 10. Exam Strategy Box
 
-> 💡 Exam Tip: Always sort raw data before finding the median. 90% of silly mistakes in Section A happen because students forget to arrange the numbers in ascending order.
-> 💡 Exam Tip: In grouped data, double-check your cumulative frequency ($cf$) column. The last value in the $cf$ column must exactly equal the total frequency ($\sum f$ or $N$). If it doesn't, you made an addition error.
-> 💡 Exam Tip: When using the grouped data formula, the $cf$ used is ALWAYS from the class _above_ the median class, but the $f$ is from the median class itself.
-> 💡 Exam Tip: If the class intervals are non-continuous (e.g., 10-19, 20-29), you MUST convert them to continuous boundaries (9.5-19.5, 19.5-29.5) before finding $L$ and $h$.
-> 💡 Exam Tip: The empirical relationship between Mean, Median, and Mode is `Mode = 3(Median) - 2(Mean)`. Memorize this; it frequently appears in 1-mark MCQs.
+> 💡 Exam Tip: Always check if the class intervals are continuous (e.g., 0-10, 10-20). If they are discontinuous (e.g., 1-10, 11-20), convert them to continuous boundaries (0.5-10.5, 10.5-20.5) before finding the class mark $x_i$, although $x_i$ remains mathematically the same either way.
+> 💡 Exam Tip: For 1-mark questions, if the mean of $n$ observations is $\bar{x}$, and you add/subtract/multiply/divide every observation by a constant $k$, the new mean is simply $\bar{x} \pm k$ or $\bar{x} \times k$.
+> 💡 Exam Tip: Do not waste time using the Step-Deviation method if the frequencies and midpoints are single-digit numbers; the Direct Method will be faster.
+> 💡 Exam Tip: The sum of the deviations of all observations from their arithmetic mean is always exactly zero: $\sum (x_i - \bar{x}) = 0$.
+> 💡 Exam Tip: When choosing an assumed mean '$a$', pick the $x_i$ value that corresponds to the highest frequency near the center to make your $f_id_i$ calculations as small as possible.
 
 ## 11. Common Student Errors
 
-> ⚠️ Common Error: Using the median class's own cumulative frequency instead of the preceding class's $cf$ in the formula.
-> ⚠️ Common Error: Confusing the formulas for odd and even $n$ in raw data. Remember, even $n$ requires finding the average of TWO middle terms.
-> ⚠️ Common Error: Calculating $h$ incorrectly. $h$ is Upper Limit - Lower Limit. Do not just count the number of classes.
-> ⚠️ Common Error: Forgetting BODMAS. Students often add $L$ to the numerator before dividing by $f$. Always calculate the fraction part entirely, multiply by $h$, and _then_ add $L$ last.
-> ⚠️ Common Error: Ignoring data units. If the data is in thousands (₹ '000), make sure your final answer reflects that (e.g., 12.5 means ₹ 12,500).
+> ⚠️ Common Error: Dividing by the number of classes instead of the total frequency ($\sum f_i$) in grouped data problems.
+> ⚠️ Common Error: Adding the class intervals together to find $\sum f_i$. Always sum the _frequency_ column, not the variable column.
+> ⚠️ Common Error: Messing up negative signs in the Assumed Mean method. Remember that values smaller than '$a$' will have negative $d_i$ values.
+> ⚠️ Common Error: Forgetting to multiply by the class size ($h$) at the very end when using the Step-Deviation method.
+> ⚠️ Common Error: Writing the final answer as a fraction instead of converting it to a decimal. Board exams generally prefer answers rounded to two decimal places.
 
 ## 12. Practice Exercises (NCERT + Competitive Exam Style)
 
-### Section A: Very Short Answer (1 mark)
+### Section A: Very Short Answer (1-2 marks)
 
-1. Find the median of the first 9 prime numbers.
-2. If the median of sorted data 12, 14, 17, $x+2$, $x+4$, 25, 28, 30 is 21, find $x$.
-3. What is the median of an array of 50 consecutive integers starting from 1?
-4. True or False: The median of a dataset is always a number present within the dataset.
-5. Using the empirical formula, find the median if mode = 24 and mean = 27.
+1. Find the mean of the first 10 natural numbers.
+2. The mean of 6, 8, $x$, 12, and 14 is 10. Find the value of $x$.
+3. If the mean of 10 observations is 15, what is the sum of all the observations?
+4. If every value in a dataset with a mean of 40 is multiplied by 2 and then increased by 5, what is the new mean?
+5. What is the algebraic sum of deviations of a frequency distribution from its mean?
 
 ### Section B: Short Answer (2-3 marks)
 
-6. Find the median of the following observations: 46, 64, 87, 41, 58, 77, 35, 90, 55, 33, 92. If 92 is replaced by 99 and 41 by 43 in the above data, find the new median.
-7. The median of the following data is 16. Find the missing frequency $p$.
-   $x$: 10, 15, 20, 25
-   $f$: 3, $p$, 4, 2
-8. Convert the following "less than" cumulative frequency distribution to a normal frequency distribution and identify the median class.
-   Less than 10: 4
-   Less than 20: 16
-   Less than 30: 40
-   Less than 40: 76
-   Less than 50: 96
-   Less than 60: 112
-   Less than 70: 120
-9. Find the median wage from the given data:
-   Wages (₹): 20-30, 30-40, 40-50, 50-60, 60-70
-   Workers: 8, 10, 14, 12, 6
-10. If the values of a dataset are multiplied by 3, what happens to the median? Prove with a small example.
+6. The mean weight of 8 students is 45 kg. If a 9th student weighing 54 kg joins the group, what is the new mean weight?
+7. The mean of 20 numbers is 18. If 3 is subtracted from each of the first 10 numbers, find the new mean of the 20 numbers.
+8. Find the mean of the following distribution:
+   $x_i$: 5, 10, 15, 20, 25
+   $f_i$: 2, 5, 6, 4, 3
+9. The mean of 50 observations was found to be 36. Later it was discovered that one observation, 48, was wrongly read as 23. Find the correct mean.
+10. The average salary of 15 male employees is ₹5000 and that of 10 female employees is ₹4000. Find the combined mean salary of all 25 employees.
 
 ### Section C: Exam Level Problems (4-5 marks)
 
-11. The median of the following distribution is 28.5. Find the values of $x$ and $y$, if the total frequency is 60.
-    Class: 0-10, 10-20, 20-30, 30-40, 40-50, 50-60
-    Frequency: 5, $x$, 20, 15, $y$, 5
-12. Calculate the median for the following data:
-    Marks: 11-15, 16-20, 21-25, 26-30, 31-35, 36-40
-    No. of Students: 2, 3, 6, 7, 14, 12
-13. A life insurance agent found the following data for distribution of ages of 100 policy holders. Calculate the median age, if policies are only given to persons having age 18 years onwards but less than 60 years.
-    Age (in years) / Number of policy holders:
-    Below 20 / 2
-    Below 25 / 6
-    Below 30 / 24
-    Below 35 / 45
-    Below 40 / 78
-    Below 45 / 89
-    Below 50 / 92
-    Below 55 / 98
-    Below 60 / 100
-14. Find the missing frequencies $f_1$ and $f_2$ if the median is 32 and total frequency is 100.
-    Marks: 0-10, 10-20, 20-30, 30-40, 40-50, 50-60
-    Students: 10, $f_1$, 25, 30, $f_2$, 10
-15. Calculate the median of the following continuous frequency distribution. Note the unequal class intervals.
-    Class: 0-20, 20-50, 50-70, 70-100
-    Frequency: 8, 10, 12, 6
+11. Calculate the mean of the following data using the Direct Method:
+    Classes: 10-20, 20-30, 30-40, 40-50, 50-60
+    Frequency: 4, 7, 10, 6, 3
+12. Find the missing frequency '$p$' if the mean of the following distribution is 24:
+    Classes: 0-10, 10-20, 20-30, 30-40, 40-50
+    Frequency: 3, 4, $p$, 3, 2
+13. Find the mean of the following data using the Assumed Mean method:
+    Classes: 100-120, 120-140, 140-160, 160-180, 180-200
+    Frequency: 12, 14, 8, 6, 10
+14. The following table gives the literacy rate of 35 cities. Find the mean literacy rate using the step-deviation method.
+    Literacy rate (%): 45-55, 55-65, 65-75, 75-85, 85-95
+    Number of cities: 3, 10, 11, 8, 3
+15. The mean of the following frequency distribution is 50. Find the missing frequencies $f_1$ and $f_2$ if the sum of all frequencies is 120.
+    Classes: 0-20, 20-40, 40-60, 60-80, 80-100
+    Frequency: 17, $f_1$, 32, $f_2$, 19
 
 ### Section D: Conceptual Reasoning (For Data Science & Advanced Competitions)
 
-16. In a right-skewed dataset (e.g., national wealth distribution), what is the typical relationship between the mean and the median (which one is larger)? Why?
-17. A data engineer notices that a faulty sensor randomly recorded a temperature of 9999°C instead of 25°C. Will this error affect the daily median temperature calculation? Explain why.
-18. Why can't we find the exact median from a grouped frequency distribution? What assumption does the interpolation formula make?
-19. If you add a constant 'k' to every term in a dataset, does the median increase by 'k'? Why?
-20. In what specific scenario would the median and the mean of a dataset be exactly equal?
+16. Why does replacing missing values with the column mean (Mean Imputation) artificially reduce the variance (spread) of a dataset?
+17. A startup has 10 employees. 9 earn ₹40,000, and the CEO earns ₹4,000,000. Why is the mean a bad metric for an HR report here, and what is a better alternative?
+18. Prove conceptually that $\sum (x_i - \bar{x}) = 0$. What does this imply physically?
+19. If you scale a dataset (e.g., convert temperatures from Celsius to Fahrenheit $F = 1.8C + 32$), does the mean undergo the exact same transformation? Why?
+20. In what specific scenario would the arithmetic mean and the median of a dataset be exactly equal?
 
 ## 13. Fully Solved Answers
 
 ### Section A
 
-**1. Solution:** First 9 primes: 2, 3, 5, 7, 11, 13, 17, 19, 23. Number of terms $n=9$ (odd). Median is the 5th term.
-Answer: 11.
+**1. Solution:** First 10 natural numbers: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10.
+Sum = $\frac{n(n+1)}{2} = \frac{10 \times 11}{2} = 55$. Mean = $\frac{55}{10} = 5.5$.
+**Final Answer:** 5.5.
 
-**2. Solution:** The data is already sorted. $n=8$ (even). Median is the average of 4th and 5th terms.
-Median = $\frac{(x+2) + (x+4)}{2} = \frac{2x+6}{2} = x+3$.
-Given Median = 21. So, $x+3 = 21 \Rightarrow x = 18$.
-Answer: 18.
+**2. Solution:** Mean = 10. $n = 5$. Sum = $5 \times 10 = 50$.
+$6 + 8 + x + 12 + 14 = 50 \Rightarrow 40 + x = 50 \Rightarrow x = 10$.
+**Final Answer:** 10.
 
-**3. Solution:** Integers are 1, 2, 3, ..., 50. $n=50$ (even). Median = average of 25th and 26th terms.
-Median = $\frac{25 + 26}{2} = 25.5$.
-Answer: 25.5.
+**3. Solution:** Sum = Mean $\times$ Total observations = $15 \times 10 = 150$.
+**Final Answer:** 150.
 
-**4. Solution:** False. As seen in even-numbered arrays (like example 3), the median can be the average of two numbers, resulting in a value not originally in the dataset.
-Answer: False.
+**4. Solution:** By the property of means, if $y = ax + b$, then $\bar{y} = a\bar{x} + b$.
+New mean = $(40 \times 2) + 5 = 80 + 5 = 85$.
+**Final Answer:** 85.
 
-**5. Solution:** Formula: Mode = 3(Median) - 2(Mean).
-$24 = 3(\text{Median}) - 2(27)$
-$24 = 3(\text{Median}) - 54$
-$78 = 3(\text{Median}) \Rightarrow \text{Median} = 26$.
-Answer: 26.
+**5. Solution:** The algebraic sum of deviations from the mean is always zero.
+**Final Answer:** 0.
 
 ### Section B
 
 **6. Solution:**
-Original sorted: 33, 35, 41, 46, 55, 58, 64, 77, 87, 90, 92. ($n=11$)
-Median = 6th term = 58.
-New dataset sorted: 33, 35, 43, 46, 55, 58, 64, 77, 87, 90, 99. ($n=11$)
-New Median = 6th term = 58.
-Answer: The median remains 58. (Demonstrates robustness to extremes).
+Original sum of 8 students = $8 \times 45 = 360$ kg.
+New sum with 9th student = $360 + 54 = 414$ kg.
+New mean = $\frac{414}{9} = 46$ kg.
+**Final Answer:** 46 kg.
 
 **7. Solution:**
-Prepare $cf$:
-$10: 3 \rightarrow cf=3$
-$15: p \rightarrow cf=3+p$
-$20: 4 \rightarrow cf=7+p$
-$25: 2 \rightarrow cf=9+p$
-$N = 9+p$.
-Median is given as 16, which means the median occurs between 15 and 20, but since data is discrete, the cumulative frequency at value 15 must contain the median position. For discrete series, $N/2$ method is tricky with unknowns. Better method: Since median is 16, it implies... wait, the data is 10, 15, 20, 25. If median is 16, this is impossible for discrete data unless it's an even array and average is 16. The average of 15 and x? No. Let's assume the question meant Continuous Data or Median = 15. If Median is 16 in a discrete set, the data is invalid. _Correction in interpretation_: If median is 16, it must lie between 15 and 20. But for discrete data, it must be an exact value unless it's an average of 15 and 20 (which is 17.5). Thus, the problem is structurally flawed for discrete series. Let's assume it meant grouped: 5-10, 10-15... Let's use the standard approach: Median is 15. Then $(3+p)$ must be greater than $N/2$. Skip this ambiguous interpretation, assume median is exactly 15. If median = 15, then position $N/2$ falls in $cf = 3+p$.
-_Self-correction_: If median is 16, and data is discrete, this is impossible. If the question implies a weighted median or grouped data with missing intervals, it's poorly phrased. Let's provide the conceptual answer: "A discrete median must be a data point or the exact average of two adjacent points. Since 16 is neither 15, 20, nor their average (17.5), the given data is inconsistent."
+Original sum of 20 numbers = $20 \times 18 = 360$.
+Total subtracted amount = $10 \times 3 = 30$.
+New sum = $360 - 30 = 330$.
+New mean = $\frac{330}{20} = 16.5$.
+**Final Answer:** 16.5.
 
 **8. Solution:**
-Class intervals are formed by taking differences.
-0-10: 4
-10-20: 16 - 4 = 12
-20-30: 40 - 16 = 24
-30-40: 76 - 40 = 36
-40-50: 96 - 76 = 20
-50-60: 112 - 96 = 16
-60-70: 120 - 112 = 8
-Total $N = 120$. $N/2 = 60$.
-The $cf$ just greater than 60 is 76.
-Answer: The corresponding median class is 30-40.
+
+| $x_i$   | $f_i$           | $f_ix_i$            |
+| :------ | :-------------- | :------------------ |
+| 5       | 2               | 10                  |
+| 10      | 5               | 50                  |
+| 15      | 6               | 90                  |
+| 20      | 4               | 80                  |
+| 25      | 3               | 75                  |
+| **Sum** | $\sum f_i = 20$ | $\sum f_ix_i = 305$ |
+
+Mean = $\frac{305}{20} = 15.25$.
+**Final Answer:** 15.25.
 
 **9. Solution:**
-$cf$ table:
-20-30: 8 $\rightarrow$ cf = 8
-30-40: 10 $\rightarrow$ cf = 18
-40-50: 14 $\rightarrow$ cf = 32
-50-60: 12 $\rightarrow$ cf = 44
-60-70: 6 $\rightarrow$ cf = 50
-$N = 50$, $N/2 = 25$.
-$cf$ just greater than 25 is 32. Median class = 40-50.
-$L=40, cf=18, f=14, h=10$.
-$\text{Median} = 40 + [ (25 - 18) / 14 ] \times 10 = 40 + [ 7 / 14 ] \times 10 = 40 + [0.5 \times 10] = 45$.
-Answer: ₹ 45.
+Incorrect Sum = $50 \times 36 = 1800$.
+Correct Sum = Incorrect Sum - Wrong Item + Correct Item = $1800 - 23 + 48 = 1825$.
+Correct Mean = $\frac{1825}{50} = 36.5$.
+**Final Answer:** 36.5.
 
 **10. Solution:**
-Dataset: 1, 2, 3 (Median = 2)
-Multiply by 3: 3, 6, 9 (Median = 6)
-Answer: The median is also multiplied by 3. This is a property of positional averages under scaling.
+Combined Mean $\bar{x}_{12} = \frac{n_1\bar{x}_1 + n_2\bar{x}_2}{n_1 + n_2}$
+Sum of male salaries = $15 \times 5000 = 75000$.
+Sum of female salaries = $10 \times 4000 = 40000$.
+Total sum = $115000$. Total employees = 25.
+Combined Mean = $\frac{115000}{25} = 4600$.
+**Final Answer:** ₹4600.
 
 ### Section C
 
 **11. Solution:**
-$cf$ table:
-0-10: 5 $\rightarrow cf = 5$
-10-20: $x \rightarrow cf = 5+x$
-20-30: 20 $\rightarrow cf = 25+x$
-30-40: 15 $\rightarrow cf = 40+x$
-40-50: $y \rightarrow cf = 40+x+y$
-50-60: 5 $\rightarrow cf = 45+x+y$
-Given $N = 60$. So, $45 + x + y = 60 \Rightarrow x + y = 15$ --- (Eq 1)
-Median = 28.5. This lies in the class 20-30.
-So, Median Class = 20-30.
-$L = 20, N/2 = 30, cf = 5+x, f = 20, h = 10$.
-$28.5 = 20 + \left[ \frac{30 - (5+x)}{20} \right] \times 10$
-$8.5 = \left[ \frac{25 - x}{2} \right]$
-$17 = 25 - x$
-$x = 8$.
-From Eq 1, $8 + y = 15 \Rightarrow y = 7$.
-Answer: $x = 8, y = 7$.
+
+| Class   | $x_i$ | $f_i$           | $f_ix_i$             |
+| :------ | :---- | :-------------- | :------------------- |
+| 10-20   | 15    | 4               | 60                   |
+| 20-30   | 25    | 7               | 175                  |
+| 30-40   | 35    | 10              | 350                  |
+| 40-50   | 45    | 6               | 270                  |
+| 50-60   | 55    | 3               | 165                  |
+| **Sum** |       | $\sum f_i = 30$ | $\sum f_ix_i = 1020$ |
+
+Mean = $\frac{1020}{30} = 34$.
+**Final Answer:** 34.
 
 **12. Solution:**
-Classes are discontinuous. Convert to continuous by subtracting 0.5 from lower limit and adding 0.5 to upper limit.
-10.5-15.5: $f=2, cf=2$
-15.5-20.5: $f=3, cf=5$
-20.5-25.5: $f=6, cf=11$
-25.5-30.5: $f=7, cf=18$
-30.5-35.5: $f=14, cf=32$
-35.5-40.5: $f=12, cf=44$
-$N=44, N/2=22$.
-$cf$ just > 22 is 32. Median Class = 30.5 - 35.5.
-$L=30.5, cf=18, f=14, h=5$.
-$\text{Median} = 30.5 + \left[ \frac{22 - 18}{14} \right] \times 5 = 30.5 + \left[ \frac{4}{14} \right] \times 5 = 30.5 + 1.43 = 31.93$.
-Answer: 31.93.
+
+| Class   | $x_i$ | $f_i$  | $f_ix_i$    |
+| :------ | :---- | :----- | :---------- |
+| 0-10    | 5     | 3      | 15          |
+| 10-20   | 15    | 4      | 60          |
+| 20-30   | 25    | $p$    | $25p$       |
+| 30-40   | 35    | 3      | 105         |
+| 40-50   | 45    | 2      | 90          |
+| **Sum** |       | $12+p$ | $270 + 25p$ |
+
+Given Mean = 24.
+$24 = \frac{270 + 25p}{12 + p}$
+$24(12 + p) = 270 + 25p \Rightarrow 288 + 24p = 270 + 25p$
+$288 - 270 = 25p - 24p \Rightarrow p = 18$.
+**Final Answer:** $p = 18$.
 
 **13. Solution:**
-The given table is "less than" cumulative frequencies. Convert to normal frequency.
-15-20: $cf=2, f=2$ (assuming starts at 15 for a class width of 5, or below 20)
-20-25: $cf=6, f=6-2=4$
-25-30: $cf=24, f=24-6=18$
-30-35: $cf=45, f=45-24=21$
-35-40: $cf=78, f=78-45=33$
-40-45: $cf=89, f=89-78=11$
-45-50: $cf=92, f=92-89=3$
-50-55: $cf=98, f=98-92=6$
-55-60: $cf=100, f=100-98=2$
-$N = 100, N/2 = 50$.
-$cf$ just > 50 is 78. Median class = 35-40.
-$L=35, cf=45, f=33, h=5$.
-$\text{Median} = 35 + \left[ \frac{50 - 45}{33} \right] \times 5 = 35 + \frac{25}{33} = 35 + 0.76 = 35.76$.
-Answer: 35.76 years.
+Let Assumed Mean $a = 150$.
+
+| Class   | $f_i$           | $x_i$ | $d_i = x_i - 150$ | $f_id_i$             |
+| :------ | :-------------- | :---- | :---------------- | :------------------- |
+| 100-120 | 12              | 110   | -40               | -480                 |
+| 120-140 | 14              | 130   | -20               | -280                 |
+| 140-160 | 8               | 150   | 0                 | 0                    |
+| 160-180 | 6               | 170   | 20                | 120                  |
+| 180-200 | 10              | 190   | 40                | 400                  |
+| **Sum** | $\sum f_i = 50$ |       |                   | $\sum f_id_i = -240$ |
+
+$\bar{x} = a + \frac{\sum f_id_i}{\sum f_i} = 150 + (\frac{-240}{50}) = 150 - 4.8 = 145.2$.
+**Final Answer:** 145.2.
 
 **14. Solution:**
-$cf$ table:
-0-10: 10 $\rightarrow cf = 10$
-10-20: $f_1 \rightarrow cf = 10+f_1$
-20-30: 25 $\rightarrow cf = 35+f_1$
-30-40: 30 $\rightarrow cf = 65+f_1$
-40-50: $f_2 \rightarrow cf = 65+f_1+f_2$
-50-60: 10 $\rightarrow cf = 75+f_1+f_2$
-Given $N = 100$. So, $75+f_1+f_2 = 100 \Rightarrow f_1+f_2 = 25$ --- (Eq 1)
-Median = 32. Median Class = 30-40.
-$L=30, N/2=50, cf=35+f_1, f=30, h=10$.
-$32 = 30 + \left[ \frac{50 - (35+f_1)}{30} \right] \times 10$
-$2 = \frac{15 - f_1}{3}$
-$6 = 15 - f_1 \Rightarrow f_1 = 9$.
-From Eq 1, $9 + f_2 = 25 \Rightarrow f_2 = 16$.
-Answer: $f_1 = 9, f_2 = 16$.
+Class size $h = 10$. Let Assumed Mean $a = 70$.
+
+| Class   | $f_i$           | $x_i$    | $u_i = \frac{x_i - 70}{10}$ | $f_iu_i$           |
+| :------ | :-------------- | :------- | :-------------------------- | :----------------- |
+| 45-55   | 3               | 50       | -2                          | -6                 |
+| 55-65   | 10              | 60       | -1                          | -10                |
+| 65-75   | 11              | 70 ($a$) | 0                           | 0                  |
+| 75-85   | 8               | 80       | 1                           | 8                  |
+| 85-95   | 3               | 90       | 2                           | 6                  |
+| **Sum** | $\sum f_i = 35$ |          |                             | $\sum f_iu_i = -2$ |
+
+$\bar{x} = a + (\frac{\sum f_iu_i}{\sum f_i}) \times h = 70 + (\frac{-2}{35}) \times 10 = 70 - \frac{20}{35} = 70 - 0.57 = 69.43$.
+**Final Answer:** 69.43%.
 
 **15. Solution:**
-$cf$ table:
-0-20: 8 $\rightarrow cf = 8$
-20-50: 10 $\rightarrow cf = 18$
-50-70: 12 $\rightarrow cf = 30$
-70-100: 6 $\rightarrow cf = 36$
-$N=36, N/2=18$.
-The $cf$ just greater than or EQUAL to 18 is 18 itself. This means the median is EXACTLY the upper limit of the class 20-50.
-Let's verify with formula. The median class is 20-50.
-$L=20, cf=8, f=10, h=30$.
-$\text{Median} = 20 + \left[ \frac{18 - 8}{10} \right] \times 30 = 20 + \left[ \frac{10}{10} \right] \times 30 = 20 + 30 = 50$.
-Answer: 50.
+
+| Class   | $x_i$ | $f_i$                   | $f_ix_i$                         |
+| :------ | :---- | :---------------------- | :------------------------------- |
+| 0-20    | 10    | 17                      | 170                              |
+| 20-40   | 30    | $f_1$                   | $30f_1$                          |
+| 40-60   | 50    | 32                      | 1600                             |
+| 60-80   | 70    | $f_2$                   | $70f_2$                          |
+| 80-100  | 90    | 19                      | 1710                             |
+| **Sum** |       | $\sum f_i = 68+f_1+f_2$ | $\sum f_ix_i = 3480+30f_1+70f_2$ |
+
+Given $\sum f_i = 120 \Rightarrow 68 + f_1 + f_2 = 120 \Rightarrow f_1 + f_2 = 52$ --- (Eq 1)
+Given Mean = 50.
+$50 = \frac{3480 + 30f_1 + 70f_2}{120}$
+$6000 = 3480 + 30f_1 + 70f_2 \Rightarrow 2520 = 30f_1 + 70f_2$
+Divide by 10: $3f_1 + 7f_2 = 252$ --- (Eq 2)
+From Eq 1, $f_1 = 52 - f_2$. Substitute in Eq 2:
+$3(52 - f_2) + 7f_2 = 252 \Rightarrow 156 - 3f_2 + 7f_2 = 252$
+$4f_2 = 96 \Rightarrow f_2 = 24$.
+Then $f_1 = 52 - 24 = 28$.
+**Final Answer:** $f_1 = 28, f_2 = 24$.
 
 ### Section D
 
-**16. Solution:** In a right-skewed dataset, the Mean is larger than the Median. The long tail on the right (extremely high values) pulls the mathematical average upwards, while the median remains anchored in the middle of the sorted list.
-**17. Solution:** No, it will not affect the median (or only minimally). The median only cares about the order. Whether the highest value is 30°C or 9999°C, it remains the last item in the sorted list. The middle position does not shift. This is why the median is "robust to outliers."
-**18. Solution:** The formula assumes that frequencies are uniformly (evenly) distributed within the median class. Since we don't have the raw data, we interpolate assuming a straight-line distribution of points within that specific interval.
-**19. Solution:** Yes. Adding a constant 'k' to every term shifts the entire sorted array by 'k'. Therefore, the middle term also shifts by exactly 'k'.
-**20. Solution:** When the dataset is perfectly symmetrical (e.g., a perfect normal bell curve), the center of mass (mean) and the positional middle (median) lie exactly at the same central point.
+**16. Solution:** Variance measures how spread out data points are from the mean. By replacing missing values with the exact mean itself, you are adding points with zero spread (deviation = 0). This dilutes the overall spread of the data, artificially clustering the distribution closer to the center than it naturally is.
+**17. Solution:** The CEO's extreme salary is an outlier that pulls the mean upwards dramatically. The mean salary would be roughly ₹436,000, which is over 10x what 90% of the company actually earns. It is highly misleading. The Median (₹40,000) is a much better, robust metric for typical pay.
+**18. Solution:** $\sum (x_i - \bar{x}) = \sum x_i - \sum \bar{x} = n\bar{x} - n\bar{x} = 0$. Physically, this means the mean acts as the exact center of gravity/mass of the dataset. The total "pull" of the values above the mean perfectly cancels out the total "pull" of the values below it.
+**19. Solution:** Yes, the mean is affected by both changes in scale (multiplication) and changes in origin (addition). Since the transformation is linear ($y = mx + c$), the mean transforms exactly the same way: $\bar{F} = 1.8\bar{C} + 32$.
+**20. Solution:** They are exactly equal when the dataset's distribution is perfectly symmetrical (e.g., a perfect normal distribution curve like `[10, 20, 30, 40, 50]`). There is no skewness to pull the mean away from the median center.
 
 ## 14. Real Dataset Example
 
 **Dataset Context: House Prices in a Neighborhood**
-Imagine you are a data analyst scraping property prices for a small neighborhood in Bangalore.
+Let's analyze the prices of 5 houses recently sold in a suburban neighborhood.
+Prices (in ₹ Crores): `1.0, 1.2, 1.1, 1.3, 10.4`
 
-Prices (in ₹ Crores): `1.2, 1.5, 1.4, 1.3, 1.6, 1.2, 1.4, 25.0`
-
-Notice that one house is a massive luxury mansion worth ₹ 25.0 Cr.
-
-- **Mean Calculation:** (1.2 + 1.5 + 1.4 + 1.3 + 1.6 + 1.2 + 1.4 + 25.0) / 8 = **₹ 4.32 Cr**
-- **Median Calculation:** Sort: 1.2, 1.2, 1.3, 1.4, 1.4, 1.5, 1.6, 25.0. Average of 4th and 5th terms = (1.4 + 1.4)/2 = **₹ 1.4 Cr**
+**Mean Calculation:**
+Sum = $1.0 + 1.2 + 1.1 + 1.3 + 10.4 = 15.0$ Cr.
+Mean = $\frac{15.0}{5} = \textbf{₹ 3.0 Cr}$.
 
 **Interpretation:**
-If a real estate app displays the "Average House Price" as ₹ 4.32 Cr, a normal buyer will assume the neighborhood is completely unaffordable and ignore it. However, the Median price of ₹ 1.4 Cr accurately tells the buyer what a typical house actually costs. Dashboards invariably use median for real estate pricing to filter out the noise of luxury outlier properties.
+The arithmetic mean suggests the average house price is ₹3.0 Cr. However, looking at the data, 4 out of 5 houses cost around ₹1.1 Cr. The ₹10.4 Cr house is a massive luxury mansion (an outlier). This demonstrates the primary weakness of the mean in data science: **it is highly sensitive to extreme values.** In business dashboards for real estate, displaying this mean would mislead buyers into thinking the neighborhood is unaffordable.
 
 ## 15. Quick Revision Sheet
 
-- **Key Idea:** The median is the middle value of an _ordered_ dataset. 50% of data is below it, 50% is above it.
-- **Formula (Raw Odd):** $\left(\frac{n+1}{2}\right)^{th}$ term.
-- **Formula (Raw Even):** Average of $\left(\frac{n}{2}\right)^{th}$ and $\left(\frac{n}{2} + 1\right)^{th}$ terms.
-- **Formula (Grouped):** $L + \left[ \frac{\frac{N}{2} - cf}{f} \right] \times h$
-- **When to Use:** When data is skewed, has extreme outliers, or deals with incomes/real estate/lifespans.
-- **When NOT to Use:** When total sums are important, or the data is perfectly symmetric and small.
-- **Shortcut:** Mode = 3(Median) - 2(Mean)
+- **Definition:** The arithmetic average; sum of values divided by count.
+- **Formula (Raw):** $\bar{x} = \frac{\sum x_i}{n}$
+- **Formula (Direct Grouped):** $\bar{x} = \frac{\sum f_ix_i}{\sum f_i}$
+- **Formula (Assumed Mean):** $\bar{x} = a + \frac{\sum f_id_i}{\sum f_i}$
+- **Key Property 1:** The sum of deviations from the mean is 0.
+- **Key Property 2:** If $y_i = a \cdot x_i + b$, then $\bar{y} = a \cdot \bar{x} + b$.
+- **Weakness:** Severely distorted by outliers and skewed data.
+- **Data Science Use:** Used heavily for feature scaling (Z-score standardization) and base imputation for symmetric data.
 
 ## 16. Interview & Data Science Questions
 
 ### Beginner
 
-**Q:** You are given a list of user ages. How do you find the median using Python?
-**A:** `import numpy as np; median_age = np.median(ages_list)`. Behind the scenes, numpy sorts the array and extracts the middle element (or average of two middle elements).
+**Q:** How do you handle missing values in a machine learning dataset containing human heights?
+**A:** Because human height follows a symmetric normal distribution with few extreme outliers, replacing missing values with the column's mean (Mean Imputation) is a safe and standard approach.
 
 ### Intermediate
 
-**Q:** In an e-commerce dashboard, why do we report "Median Order Value" instead of "Average Order Value"?
-**A:** If 99 customers buy a ₹500 t-shirt, and 1 customer buys a ₹1,00,000 diamond ring, the average order value spikes artificially. The median order value remains ₹500, accurately reflecting the typical customer behavior, which is better for setting marketing budgets.
+**Q:** Why do we use Mean Squared Error (MSE) instead of Mean Absolute Error (MAE) in training regression models?
+**A:** While both rely on the mean of errors, MSE squares the differences, which punishes large outliers much more heavily than MAE. Furthermore, squaring makes the cost function smooth and differentiable everywhere, which is mathematically necessary for gradient descent optimization algorithms.
 
 ### Advanced
 
-**Q:** Explain the concept of Breakdown Point. What is the breakdown point of the median compared to the mean?
-**A:** Breakdown point is the proportion of incorrect/extreme data points a statistic can handle before giving a completely false result. The mean has a breakdown point of 0% (one infinity value corrupts the mean). The median has a breakdown point of 50%; you can replace nearly half the data with infinity, and the median will still accurately represent the remaining core data.
+**Q:** Explain the impact of standardization ($z = (x - \mu)/\sigma$) on the arithmetic mean of a feature.
+**A:** Standardization guarantees that the new arithmetic mean of the transformed feature will be exactly zero. By subtracting the original mean ($\mu$) from every point, the entire distribution shifts along the number line so that its center of mass now perfectly balances at the origin (0).
 
 ## 17. Mini Quiz
 
-**1. The median is essentially a measure of:**
-A) Central tendency based on mathematical sum
-B) Central tendency based on position
-C) Dispersion of data
-D) Frequency of occurrence
+**1. The mean of 11 observations is 50. If the first 6 observations have a mean of 49 and the last 6 observations have a mean of 52, what is the 6th observation?**
+A) 56
+B) 50
+C) 48
+D) 45
 
-**2. If the median of 5 observations $x, x+2, x+4, x+6, x+8$ is 11, what is the value of $x$?**
-A) 5
-B) 7
-C) 9
-D) 11
+**2. Which measure of central tendency is calculated by considering the magnitude of every single item in the series?**
+A) Mode
+B) Median
+C) Arithmetic Mean
+D) Range
 
-**3. In the formula for the median of grouped data, what does '$cf$' represent?**
-A) Cumulative frequency of the median class
-B) Frequency of the median class
-C) Cumulative frequency of the class preceding the median class
-D) Total frequency
+**3. In the assumed mean method formula $\bar{x} = a + \frac{\sum f_id_i}{\sum f_i}$, what does $d_i$ represent?**
+A) $f_i - a$
+B) $x_i - a$
+C) $a - x_i$
+D) $x_i / a$
 
-**4. Why is the median preferred over the mean for reporting national income?**
-A) It is easier to calculate
-B) It takes into account every single penny earned
-C) It is not affected by the extremely high incomes of billionaires
-D) It can be manipulated algebraically
+**4. A dataset contains house prices, heavily right-skewed by a few luxury mansions. Which metric will report the highest numerical value?**
+A) Mean
+B) Median
+C) Mode
+D) They will be equal
 
-**5. For a given dataset, Mean = 30 and Mode = 24. Using the empirical relation, find the Median.**
-A) 28
-B) 26
-C) 32
-D) 27
+**5. If $\sum_{i=1}^{n} (x_i - 12) = 0$, then the arithmetic mean of the dataset is:**
+A) 0
+B) $12n$
+C) 12
+D) Cannot be determined
 
 ## Mini Quiz Answer Key
 
-1. B
-2. B
-3. C
-4. C
-5. A
+1. A
+2. C
+3. B
+4. A
+5. C
